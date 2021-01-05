@@ -1,0 +1,1 @@
+export const websocketServer = "ws://211.67.20.74:8000/";

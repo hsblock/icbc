@@ -8,8 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "loadsh": "0.0.4",
+    "vue": "^2.6.11",
+    "vue-aliplayer-v2": "^1.2.7",
+    "vue-chartjs": "^3.5.1",
+    "vue-router": "^3.4.9",
+    "vue-video-player": "^5.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
