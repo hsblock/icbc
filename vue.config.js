@@ -1,3 +1,10 @@
 module.exports = {
-  publicPath: './'
+  publicPath: './',
+  // devServer: {
+  //   proxy: {
+  //     '/': {
+  //       tar
+  //     }
+  //   }
+  // }
 }

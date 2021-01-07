@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="left">
       <Video />
-      <AreaData />
+<!--      <AreaData />-->
     </div>
     <div class="right">
       <People />
