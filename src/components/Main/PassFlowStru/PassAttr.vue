@@ -14,7 +14,7 @@
       <table>
         <tr>
           <td style="background: #ff9f40"></td>
-          <td>13岁以下</td>
+          <td>18岁以下</td>
         </tr>
         <tr>
           <td style="background: #FFCD56"></td>
@@ -40,6 +40,7 @@
 
 <script>
   import PieChart from "@/components/Charts/PieChart";
+  import { server } from "../../../../config";
 
   export default {
     name: "PassAttr",
@@ -73,7 +74,23 @@
           tooltips: {
             enabled: false
           }
+        },
+        ws: null
+      }
+    },
+    created() {
+      this.openWebSocket();
+    },
+    methods: {
+      openWebSocket() {
+        this.ws = new WebSocket(server.ws.ageRate);
+        this.ws.onopen = () => console.log("gender percent open");
+        this.ws.onmessage = (e) => {
+          const data = JSON.parse(e.data);
+          this.chartData.datasets[0].data = [+data["男"], +data["女"]];
         }
+        this.ws.onerror = (error) => console.log(error)
+        this.ws.onclose = () => console.log("gender percent close")
       }
     }
   }
