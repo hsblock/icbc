@@ -3,7 +3,7 @@
     <div class="video-wrapper">
       <img ref="img" src="../../assets/Cyberpunk.jpg" alt="" class="video">
     </div>
-    <VideoPlayer :options="videoOptions" />
+<!--    <VideoPlayer :options="videoOptions" />-->
   </div>
 </template>
 
