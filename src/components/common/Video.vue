@@ -8,13 +8,11 @@
 </template>
 
 <script>
-import {server} from "../../../config";
+import { server } from "../../../config";
 import qs from "qs";
-import VideoPlayer from '../VideoPlayer'
 
 export default {
   name: "Video",
-  components: {VideoPlayer},
   data() {
     return {
       source: "http://211.67.20.171:8081/hls/test2.m3u8",
@@ -33,22 +31,26 @@ export default {
           src: "http://211.67.20.171:8081/hls/test2.m3u8",
           type: "application/x-mpegURL"
         }]
-      }
+      },
+      ws: null
     }
   },
   mounted() {
     this.openWebSocket();
     this.$refs.img.addEventListener('click', this.handleClick);
   },
+  beforeDestroy() {
+    this.ws && this.ws.close(1000, 'video destroy')
+  },
   methods: {
     openWebSocket() {
-      let ws = new WebSocket(server.ws.offlineImage);
-      ws.onopen = () => console.log("open");
-      ws.onmessage = (e) => {
+      this.ws = new WebSocket(server().ws.offlineImage);
+      this.ws.onopen = () => console.log("video open");
+      this.ws.onmessage = (e) => {
         this.$refs.img.setAttribute("src", "data:image/png;base64," + e.data);
       }
-      ws.onerror = (e) => console.log(e);
-      ws.onclose = () => console.log("close");
+      this.ws.onerror = (e) => console.log(e);
+      this.ws.onclose = () => console.log("video close");
     },
     handleClick(e) {
       const [x, y] = [e.clientX, e.clientY];

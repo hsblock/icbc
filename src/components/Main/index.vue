@@ -16,7 +16,7 @@
 <script>
   import FaceDetection from "./FaceDetection";
   import Video from "../common/Video";
-  import AreaData from "@/components/Main/AreaDatas";
+  import AreaData from "@/components/Main/AreaData";
   import People from "@/components/Main/People";
   import PassFlowStat from "@/components/Main/PassFlowStat";
   import PassFlowStru from "@/components/Main/PassFlowStru";

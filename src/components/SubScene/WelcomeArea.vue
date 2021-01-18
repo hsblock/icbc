@@ -78,7 +78,7 @@
       }
     },
     mounted() {
-      this.openWebSocket();
+      // this.openWebSocket();
     },
     beforeDestroy() {
       this.ws?.close(1000, 'closing');

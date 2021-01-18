@@ -11,9 +11,9 @@
     name: "People",
     data() {
       return {
-        currentStay: 100,
-        todayFlow: 200,
-        flowLimit: 80
+        currentStay: '未实现',
+        todayFlow: '未实现',
+        flowLimit: '未实现'
       }
     }
   }

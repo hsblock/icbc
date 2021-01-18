@@ -42,8 +42,4 @@
     background: #ffffff;
     margin: 0.5rem;
   }
-
-  /*.pass-flow-stru-wrapper /deep/ canvas {*/
-  /*  height: 100% !important;*/
-  /*}*/
 </style>
