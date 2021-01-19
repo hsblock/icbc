@@ -30,7 +30,7 @@
 
   .pass-flow-stru-container .title {
     margin: 0;
-    color: #dddddd;
+    color: #ffffff;
   }
 
   .pass-flow-stru-wrapper {

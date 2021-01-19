@@ -17,16 +17,18 @@
       </div>
     </nav>
     <settings />
+    <Message />
     <router-view />
   </div>
 </template>
 
 <script>
 import Settings from "@/components/common/Settings";
+import Message from "@/components/common/Message";
 
 export default {
   name: "Index",
-  components: {Settings},
+  components: {Message, Settings},
   data() {
     return {
       title: "副场景",
@@ -72,7 +74,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 0;
-  color: #dddddd;
+  color: #ffffff;
   border-bottom: 1px solid greenyellow;
   overflow: hidden;
   box-sizing: border-box;

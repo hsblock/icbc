@@ -11,9 +11,9 @@
     name: "People",
     data() {
       return {
-        currentStay: '未实现',
-        todayFlow: '未实现',
-        flowLimit: '未实现'
+        currentStay: '无',
+        todayFlow: '无',
+        flowLimit: '无'
       }
     }
   }
@@ -21,7 +21,7 @@
 
 <style scoped>
   .people-container {
-    color: #dddddd;
+    color: #ffffff;
     font-size: 20px;
     padding: 0 1rem;
     height: 50px;

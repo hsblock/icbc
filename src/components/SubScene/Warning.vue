@@ -24,7 +24,7 @@
     border-radius: 5px;
     margin: 0 0.5rem 0.5rem;
     height: 10%;
-    color: #dddddd;
+    color: #ffffff;
     display: flex;
     align-items: center;
   }

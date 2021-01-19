@@ -64,7 +64,7 @@ export default {
 <style scoped>
 .face-detection-container {
   text-align: center;
-  color: #dddddd;
+  color: #ffffff;
   margin: 0 0.5rem 0.5rem 0;
   background: #061123;
   border-radius: 5px;

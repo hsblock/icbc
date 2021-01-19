@@ -36,11 +36,11 @@ export default {
       self: {
         num: 10,
         maxSTime: 10,
-        maxATime: '未实现'
+        maxATime: '无'
       },
       manager: {
         staff: '张三',
-        status: '在岗/暂离/离岗'
+        status: '...'
       },
       wsNumQueue: null,
       wsMostStaningTime: null,
@@ -132,7 +132,7 @@ export default {
 <style scoped>
   .area-datas-container {
     height: 39%;
-    color: #dddddd;
+    color: #ffffff;
     background: #061123;
     border-radius: 5px;
     margin: 0 0.5rem 0.5rem;

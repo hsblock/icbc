@@ -32,7 +32,7 @@
 
   .pass-flow-stat-container .title {
     margin: 0;
-    color: #dddddd;
+    color: #ffffff;
   }
 
   .pass-flow-stat-wrapper {

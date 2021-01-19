@@ -43,6 +43,20 @@ export default {
         maintainAspectRatio: false
       }
     }
+  },
+  mounted() {
+    this.getLastWeekNum();
+  },
+  methods: {
+    getLastWeekNum() {
+      this.axios.get(server().http.getLastWeekNum)
+          .then((res) => {
+            const data = JSON.parse(res.data);
+            console.log(data);
+            this.chartData.datasets[0].data = data['lastWeekNum'];
+          })
+          .catch(e => console.log(e))
+    }
   }
 }
 </script>

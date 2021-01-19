@@ -42,7 +42,7 @@ const http = {
   setWaitNumber: 'setWaitNumber', // 设置最大等待人数 { 'waitNumber': 23 }
   setLeaveTime: 'setLeaveTime', // 设置最长离岗时间 { 'leaveTime': 12 }
   setContactTime: 'setContactTime', // 设置最长两人接触时间 { 'contactTime': 12 }
-  getLastWeekNum: 'getLastWeekNum', // 设置最近七天人数
+  getLastWeekNum: 'getLastWeekNum', // 设置最近七天人数 { 'lastWeekNum': 12 }
   backgroundShot: 'backgroundShot', // 遗留物品检测背景拍摄
 }
 
