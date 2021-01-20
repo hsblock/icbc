@@ -28,7 +28,7 @@ export default {
         }).reverse(),
         datasets: [
           {
-            label: '未实现',
+            label: '历史七天客流',
             fill: false,
             backgroundColor: '#000',
             borderColor: '#000',

@@ -1,19 +1,19 @@
 <template>
-  <div class="area-datas-container">
+  <div class="area-data-container">
     <h2>区域统计数据</h2>
-    <div class="area-datas-wrapper">
-      <div class="area-datas-items">
+    <div class="area-data-wrapper">
+      <div class="area-data-items">
         <h4>自助区域</h4>
         <span>当前排队人数: {{ self.num }}</span>
         <span>最长停留时间: {{ self.maxSTime }}分钟</span>
-        <span>最长接触时间: {{ self.maxATime }}分钟</span>
+        <span>最长接触时间: {{ self.maxCTime }}分钟</span>
       </div>
-      <div class="area-datas-items">
+      <div class="area-data-items">
         <h4>安防区域</h4>
         <span>可疑危险物品: {{ safe.danger }}</span>
         <span>检测遗留物品: {{ safe.lost }}</span>
       </div>
-      <div class="area-datas-items">
+      <div class="area-data-items">
         <h4>迎宾区域</h4>
         <span>值班员工: {{ manager.staff }}</span>
         <span>最近离岗时长: {{ manager.status }}</span>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { server } from "../../../config";
+import {server} from "../../../config";
 
 export default {
   name: "AreaData",
@@ -36,7 +36,7 @@ export default {
       self: {
         num: 10,
         maxSTime: 10,
-        maxATime: '无'
+        maxCTime: '无'
       },
       manager: {
         staff: '张三',
@@ -46,7 +46,8 @@ export default {
       wsMostStaningTime: null,
       wsAbnormal: null,
       wsLeftover: null,
-      wsManagerStatus: null
+      wsManagerStatus: null,
+      wsMostContactTime: null
     }
   },
   mounted() {
@@ -57,11 +58,12 @@ export default {
   },
   methods: {
     openWebSocket() {
-      this.openAbnormal(1000, 'abnormal close');
-      this.openLeftover(1000, 'leftover close');
-      this.openManagerStatus(1000, 'manager status close');
-      this.openMostStaningTime(1000, 'most staning time close');
-      this.openNumQueue(1000, 'num queue close');
+      this.openAbnormal();
+      this.openLeftover();
+      this.openManagerStatus();
+      this.openMostStaningTime();
+      this.openNumQueue();
+      this.openMostContactTime();
     },
     closeWebSocket() {
       this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
@@ -69,6 +71,7 @@ export default {
       this.wsAbnormal && this.wsAbnormal.close(1000, 'abnormal destroy');
       this.wsLeftover && this.wsLeftover.close(1000, 'leftover destroy');
       this.wsManagerStatus && this.wsManagerStatus.close(1000, 'manager status destroy');
+      this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
     },
     openNumQueue() {
       this.wsNumQueue = new WebSocket(server().ws.numQueue);
@@ -124,27 +127,46 @@ export default {
       }
       this.wsManagerStatus.onerror = (error) => console.log(error)
       this.wsManagerStatus.onclose = () => console.log("manager status close")
+    },
+    openMostContactTime() {
+      this.wsMostContactTime = new WebSocket(server().ws.mostContactTime);
+      this.wsMostContactTime.onopen = () => console.log("most contact time open")
+      this.wsMostContactTime.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        this.self.maxCTime = data['mostContactTime'];
+      }
+      this.wsMostContactTime.onerror = (error) => console.log(error)
+      this.wsMostContactTime.onclose = () => console.log("most contact time close")
     }
   }
 }
 </script>
 
-<style scoped>
-  .area-datas-container {
-    height: 39%;
-    color: #ffffff;
-    background: #061123;
-    border-radius: 5px;
-    margin: 0 0.5rem 0.5rem;
-  }
+<style lang="scss" scoped>
+.area-data-container {
+  height: 39%;
+  color: #ffffff;
+  background: #061123;
+  border-radius: 5px;
+  margin: 0 0.5rem 0.5rem;
 
-  .area-datas-wrapper {
+  .area-data-wrapper {
     display: flex;
     justify-content: space-around;
-  }
 
-  .area-datas-items {
-    display: flex;
-    flex-direction: column;
+    .area-data-items {
+      display: flex;
+      flex-direction: column;
+      background: #eeeeee;
+      color: #000000;
+      padding: 0.875rem;
+      border-radius: 0.25rem;
+
+      h4 {
+        margin: 0 0 0.5rem;
+      }
+    }
   }
+}
 </style>

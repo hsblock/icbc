@@ -15,22 +15,21 @@ const Message = (options) => {
     };
   }
   let id = 'message_' + seed++;
-  options.onClose = function() {
+  options.onClose = function () {
     Message.close(id);
   }
   instance = new MessageConstructor({
-    el: document.createElement('div'),
     data: options
   });
   instance.id = id;
-  instance.$mount();
-  document.body.appendChild(instance.$el);
   let verticalOffset = options.offset || 20;
   instances.forEach(item => {
     verticalOffset += item.$el.offsetHeight + 16;
   });
   instance.verticalOffset = verticalOffset;
   instance.visible = true;
+  instance.$mount();
+  document.body.appendChild(instance.$el);
   instances.push(instance);
   return instance;
 }
@@ -47,7 +46,7 @@ const Message = (options) => {
   };
 });
 
-Message.close = function(id) {
+Message.close = function (id) {
   let len = instances.length;
   let index = -1;
   let removedHeight;

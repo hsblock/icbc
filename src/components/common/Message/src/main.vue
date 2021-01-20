@@ -1,7 +1,11 @@
 <template>
-  <transition name="message-fade" @after-leave="handleAfterLeave">
+  <transition
+      name="message-fade"
+      appear
+      @after-leave="handleAfterLeave"
+  >
     <div
-        v-if="visible"
+        v-show="visible"
         :class="['message', type ? `message-${type}` : '']"
         :style="positionStyle"
         @mouseenter="clearTimer"
@@ -73,13 +77,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .message {
   position: fixed;
   min-width: 400px;
   border-radius: 4px;
   left: 50%;
-  top: 20px;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -89,6 +92,7 @@ export default {
   color: #909399;
   padding: 0.75rem 1rem;
   font-size: 14px;
+  z-index: 10000;
 
   &.message-success {
     color: #67c23a;
@@ -111,10 +115,6 @@ export default {
     display: inline-block;
     padding-right: 0.25rem;
   }
-}
-
-.message + .message {
-  top: 100px;
 }
 
 .message-fade-enter, .message-fade-leave-to {

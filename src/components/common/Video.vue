@@ -3,7 +3,6 @@
     <div class="video-wrapper">
       <img ref="img" src="../../assets/Cyberpunk.jpg" alt="" class="video">
     </div>
-<!--    <VideoPlayer :options="videoOptions" />-->
   </div>
 </template>
 
@@ -94,6 +93,6 @@ export default {
 
 .video {
   max-width: 100%;
-  max-height: 100%;
+  height: auto;
 }
 </style>

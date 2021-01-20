@@ -1,6 +1,8 @@
 <template>
   <div class="secure-area-container">
-    <button class="reset">重置背景按钮</button>
+    <button class="reset" @click="shotBackground">
+      重置背景按钮
+    </button>
     <h2>安防区域</h2>
     <div class="secure-area-wrapper">
       <div v-if="danger.length > 0" class="danger">
@@ -88,6 +90,17 @@ export default {
       }
       this.wsLeftover.onerror = (error) => console.log(error)
       this.wsLeftover.onclose = () => console.log("leftover close")
+    },
+    shotBackground() {
+      this.axios.get(server().http.backgroundShot)
+          .then(res => {
+            console.log(res);
+            this.$message.success('背景图片拍摄成功');
+          })
+          .catch(e => {
+            console.log(e);
+            this.$message.error('背景图片拍摄失败');
+          })
     }
   }
 }

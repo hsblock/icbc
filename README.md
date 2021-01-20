@@ -21,16 +21,16 @@
 
 ### 跨域问题
 
-需要根据后端使用框架对后端进行不同的配置，使用 django 的可以百度 django 跨域。
+1. 如未使用 nginx 代理，需要根据后端使用框架对后端进行不同的配置，使用 django 的可以百度 django 跨域。
 
-使用 nginx 的可以配置如下几个响应头
+2. 使用 nginx 代理可以配置如下几个响应头，具体可以参考[nginx解决跨域问题](https://segmentfault.com/a/1190000019227927?utm_source=tag-newest)
 
 ```bash
-# 具体类型配置可以改变
-add_header  Content-Type "text/plain;charset=utf-8"; 
+add_header  'Content-Type' "text/plain;charset=utf-8"; 
+add_header  'Access-Control-Allow-Headers'  '*';
 add_header  'Access-Control-Allow-Origin'  '*';
 add_header  'Access-Control-Allow-Credentials' 'true';
-add_header  'Access-Control-Allow-Methods'  'GET, POST';
+add_header  'Access-Control-Allow-Methods'  'GET, POST, OPTIONS';
 ```
 
 ### BUG 调试
@@ -48,15 +48,16 @@ BUG 调试主要有以下几个方面：
 | 接口名称 | 数据格式 | 接口描述 | 备注 |
 | ---- | ---- | ---- | ---- |
 | warning |      | 统一对项目中的报警进行管理 | :x: |
-| numQueue | { 'numberOfQueue': 12 } | 统计当前选定区域排队人数 | :heavy_check_mark: |
-| mostStaningTime | { 'mostStaningTime': 123 } | 统计当前区域最久停留时间 | :heavy_check_mark: |
+| numQueue | { 'numberOfQueue': 12 } | 获取当前选定区域排队人数 | :heavy_check_mark: |
+| mostStaningTime | { 'mostStaningTime': 123 } | 获取当前区域最长停留时间 | :heavy_check_mark: |
+| mostContactTime | { mostContactTime: 12 } | 获取最长接触时间 | :heavy_check_mark: |
 | offlineImage |  | 视频 | :heavy_check_mark: |
-| crossRegion | { 'numArea': 3, 'flow': [12, 123] } | 统计人员流动 | :x: |
-| genderRate | { 男: 20, 女: 10 } | 统计男女比例 | :heavy_check_mark: |
-| ageRate | { 'age': [12, 13, 20, 23] } | 统计年龄比例 | :heavy_check_mark: |
-| latestDay | { 'population': [12, 34] } | 统计最近多个小时内人数 | :heavy_check_mark: |
-| faceAttr | { 'img': base64, 'age': 13, 'gender': 男 } | 主屏幕上滚动显示 | :heavy_check_mark: |
-| abnormal | { 'name': 'knife', 'img': base64 } | 异常物品 | :heavy_check_mark: |
+| crossRegion | { 'numArea': 3, 'flow': [12, 123] } | 获取人员流动信息 | :x: |
+| genderRate | { 男: 20, 女: 10 } | 获取男女比例 | :heavy_check_mark: |
+| ageRate | { 'age': [12, 13, 20, 23] } | 获取年龄比例 | :heavy_check_mark: |
+| latestDay | { 'population': [12, 34] } | 获取当天客流统计信息 | :heavy_check_mark: |
+| faceAttr | [ 'infos': { 'img': base64, 'age': 13, 'gender': 男 } ] | 获取人脸检测信息 | :heavy_check_mark: |
+| abnormal | { 'name': 'knife', 'img': base64 } | 异常物品检测 | :heavy_check_mark: |
 | leftover | { 'name': 'bag', 'img': base64 } | 遗留物品检测 | :heavy_check_mark: |
 | managerStatus | { 'status': '在岗/暂离/离岗' } | 大堂经理状态 | :heavy_check_mark: |
 | numRegion | { 'infos': [{ 'name': 'region1', 'numPerson': 12, 'avgStayTime': 123 }] } | 区域对应的人数 | :x: |
@@ -66,13 +67,12 @@ BUG 调试主要有以下几个方面：
 | 接口名称        | 数据格式               | 接口描述             | 备注               |
 | --------------- | ---------------------- | -------------------- | ------------------ |
 | selectPerson    |                        | 人员追踪             | :heavy_check_mark: |
-| setQueueSize    |                        |                      | :question:         |
-| setEntrySize    | { 'entrySize': 13 }    | 设置最大进入人数     | :x:                |
-| setBankCapacity | { 'bankCapacity': 34 } | 设置最大停留人数     | :x:                |
-| setWaitTime     | { 'waitTime': 12 }     | 设置最长停留时间     | :heavy_check_mark: |
-| setWaitNumber   | { 'waitNumber': 23 }   | 设置最大等待人数     | :heavy_check_mark: |
-| setLeaveTime    | { 'leaveTime': 12 }    | 设置最长离岗时间     | :x:                |
-| setContactTime  | { 'contactTime': 12 }  | 设置最长两人接触时间 | :heavy_check_mark: |
-| getLastWeekNum  |                        | 设置最近七天人数     | :heavy_check_mark: |
-| backgroundShot  |                        | 遗留物品检测背景拍摄 | :x:                |
+| setEntrySize    | { 'entrySize': 13 }    | 设置客流上限         | :heavy_check_mark: |
+| setBankCapacity | { 'bankCapacity': 34 } | 设置停留人数上限     | :question:         |
+| setWaitTime     | { 'waitTime': 12 }     | 设置停留时间上限     | :heavy_check_mark: |
+| setWaitNumber   | { 'waitNumber': 23 }   | 设置等待人数上限     | :heavy_check_mark: |
+| setLeaveTime    | { 'leaveTime': 12 }    | 设置离岗时间上限     | :heavy_check_mark: |
+| setContactTime  | { 'contactTime': 12 }  | 设置接触时间上限     | :heavy_check_mark: |
+| getLastWeekNum  |                        | 获取历史七天客流     | :heavy_check_mark: |
+| backgroundShot  |                        | 遗留物品检测背景拍摄 | :heavy_check_mark: |
 

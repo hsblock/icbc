@@ -10,7 +10,7 @@
           </div>
           <div>
             <span>排队人数上限</span>
-            <form action="" @submit="submitWaitNumber">
+            <form action="" @submit.prevent="submitWaitNumber">
               <input v-model="numLimit" type="text">
             </form>
           </div>
@@ -22,7 +22,7 @@
           </div>
           <div>
             <span>等待时间上限</span>
-            <form action="" @submit="submitWaitTime">
+            <form action="" @submit.prevent="submitWaitTime">
               <input v-model="stayTimeLimit" type="text">
               <span>分钟</span>
             </form>
@@ -35,7 +35,7 @@
           </div>
           <div>
             <span>接触时间上限</span>
-            <form action="" @submit="submitContactTime">
+            <form action="" @submit.prevent="submitContactTime">
               <input v-model="contactTimeLimit" type="text">
               <span>分钟</span>
             </form>
@@ -118,18 +118,21 @@ export default {
       },
       wsNumQueue: null,
       wsMostStaningTime: null,
-      wsLatestDay: null
+      wsLatestDay: null,
+      wsMostContactTime: null
     }
   },
-  created() {
+  mounted() {
     this.openNumQueue();
     this.openMostStaningTime();
     this.openLatestDay();
+    this.openMostContactTime();
   },
   beforeDestroy() {
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
     this.wsMostStaningTime && this.wsMostStaningTime.close(1000, 'most staning time destroy');
     this.wsLatestDay && this.wsLatestDay.close(1000, 'latest day destroy');
+    this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
   },
   methods: {
     openNumQueue() {
@@ -154,6 +157,17 @@ export default {
       this.wsMostStaningTime.onerror = (error) => console.log(error)
       this.wsMostStaningTime.onclose = () => console.log("most staning time close")
     },
+    openMostContactTime() {
+      this.wsMostContactTime = new WebSocket(server().ws.mostContactTime);
+      this.wsMostContactTime.onopen = () => console.log("most contact time open")
+      this.wsMostContactTime.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        this.stayTime = data['mostContactTime'];
+      }
+      this.wsMostContactTime.onerror = (error) => console.log(error)
+      this.wsMostContactTime.onclose = () => console.log("most contact time close")
+    },
     openLatestDay() {
       this.wsLatestDay = new WebSocket(server().ws.latestDay);
       this.wsLatestDay.onopen = () => console.log("latest day open")
@@ -166,37 +180,36 @@ export default {
       this.wsLatestDay.onclose = () => console.log("latest day close")
     },
     submitWaitNumber() {
-      this.$message({type: 'success', text: `最大排队人数成功被设置为${this.numLimit}`})
       this.axios.get(server().http.setWaitNumber, {params: {waitNumber: this.numLimit}})
           .then(res => {
             console.log(res);
-            this.$message({type: 'success', text: `最大排队人数成功被设置为${this.numLimit}`})
+            this.$message({type: 'success', message: `最大排队人数成功被设置为${this.numLimit}`})
           })
           .catch(e => {
             console.log(e);
-            this.$message({type: 'error', text: '设置排队人数上限失败'})
+            this.$message({type: 'error', message: '设置排队人数上限失败'})
           })
     },
     submitWaitTime() {
       this.axios.get(server().http.setWaitTime, {params: {waitTime: this.stayTimeLimit}})
           .then(res => {
             console.log(res);
-            this.$message({type: 'success', text: `等待时间上限成功被设置为${this.numLimit}`})
+            this.$message({type: 'success', message: `等待时间上限成功被设置为${this.numLimit}`})
           })
           .catch(e => {
             console.log(e);
-            this.$message({type: 'error', text: '设置等待时间上限失败'})
+            this.$message({type: 'error', message: '设置等待时间上限失败'})
           })
     },
     submitContactTime() {
       this.axios.get(server().http.setContactTime, {params: {contactTime: this.contactTimeLimit}})
           .then(res => {
             console.log(res)
-            this.$message({type: 'success', text: `接触时间上限成功被设置为${this.numLimit}`})
+            this.$message({type: 'success', message: `接触时间上限成功被设置为${this.numLimit}`})
           })
           .catch(e => {
             console.log(e)
-            this.$message({type: 'error', text: '设置接触时间上限失败'})
+            this.$message({type: 'error', message: '设置接触时间上限失败'})
           })
     }
   }
