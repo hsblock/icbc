@@ -17,18 +17,16 @@
       </div>
     </nav>
     <settings />
-    <Message />
     <router-view />
   </div>
 </template>
 
 <script>
 import Settings from "@/components/common/Settings";
-import Message from "@/components/common/Message";
 
 export default {
   name: "Index",
-  components: {Message, Settings},
+  components: {Settings},
   data() {
     return {
       title: "副场景",

@@ -1,6 +1,6 @@
 # icbc
 
-### 调试步骤
+### 使用步骤
 
 1. git项目代码
 
@@ -17,7 +17,21 @@
 
 3. 浏览器打开 index.html 即可调试（使用 Internet Explorer 会出现不兼容的情况）
 
-4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http url地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
+4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
+
+### 跨域问题
+
+需要根据后端使用框架对后端进行不同的配置，使用 django 的可以百度 django 跨域。
+
+使用 nginx 的可以配置如下几个响应头
+
+```bash
+# 具体类型配置可以改变
+add_header  Content-Type "text/plain;charset=utf-8"; 
+add_header  'Access-Control-Allow-Origin'  '*';
+add_header  'Access-Control-Allow-Credentials' 'true';
+add_header  'Access-Control-Allow-Methods'  'GET, POST';
+```
 
 ### BUG 调试
 

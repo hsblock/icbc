@@ -2,7 +2,7 @@
 	<div>
 		<button ref="btn" class="settings-btn">
       <svg class="iconfont" aria-hidden="true">
-        <use xlink:href="#icon-shezhi"></use>
+        <use xlink:href="#icon-setting"></use>
       </svg>
 		</button>
 		<div v-show="visible" class="settings">
@@ -65,7 +65,7 @@ export default {
 <style scoped>
 .settings-btn {
 	background: transparent;
-	position: absolute;
+	position: fixed;
 	right: 0;
 	top: 0;
 	outline: none;
@@ -97,6 +97,8 @@ export default {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(46, 41, 51, 0.08), 0 4px 8px rgba(71, 63, 79, 0.16);
 }
 
 .settings > div {
@@ -129,6 +131,7 @@ export default {
 	border: none;
 	padding: 0.25rem 0.5rem;
 	cursor: pointer;
+  border-radius: 2px;
 }
 
 .confirm button:active {
