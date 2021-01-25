@@ -56,7 +56,7 @@ BUG 调试主要有以下几个方面：
 | genderRate | { 男: 20, 女: 10 } | 获取男女比例 | :heavy_check_mark: |
 | ageRate | { 'age': [12, 13, 20, 23] } | 获取年龄比例 | :heavy_check_mark: |
 | latestDay | { 'population': [12, 34] } | 获取当天客流统计信息 | :heavy_check_mark: |
-| faceAttr | [ 'infos': { 'img': base64, 'age': 13, 'gender': 男 } ] | 获取人脸检测信息 | :heavy_check_mark: |
+| faceAttr | { 'img': base64, 'age': 13, 'gender': 男 } | 获取人脸检测信息 | :heavy_check_mark: |
 | abnormal | { 'name': 'knife', 'img': base64 } | 异常物品检测 | :heavy_check_mark: |
 | leftover | { 'name': 'bag', 'img': base64 } | 遗留物品检测 | :heavy_check_mark: |
 | managerStatus | { 'status': '在岗/暂离/离岗' } | 大堂经理状态 | :heavy_check_mark: |

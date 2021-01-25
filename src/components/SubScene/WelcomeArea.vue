@@ -21,8 +21,7 @@
             </div>
             <div class="time">
               <span>离岗时间上限:</span>
-              <form action="" @submit.prevent="submitLeaveTime"
-              >
+              <form action="" @submit.prevent="submitLeaveTime">
                 <input
                     v-model="staff.leaveTimeLimit"
                     type="text"
@@ -93,7 +92,7 @@ export default {
       this.ws.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.staffs[0].status = data['status'];
+        this.staff.status = data['status'];
       }
       this.ws.onclose = () => console.log('close');
       this.ws.onerror = (error) => console.log(error);
