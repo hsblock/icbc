@@ -56,7 +56,7 @@ export default {
         name: '张三',
         age: '20201215',
         status: '...',
-        leaveTimeLimit: 20
+        leaveTimeLimit: ''
       },
       ws: null,
       chartData: {
@@ -81,6 +81,7 @@ export default {
   },
   mounted() {
     this.openWebSocket();
+    this.getLeaveTime();
   },
   beforeDestroy() {
     this.ws && this.ws.close(1000, 'manager status destroy');
@@ -106,6 +107,17 @@ export default {
           .catch((e) => {
             console.log(e);
             this.$message.error('离岗时间上限设置失败');
+          })
+    },
+    getLeaveTime() {
+      this.axios.get(server().http.getLeaveTime)
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            this.staff.leaveTimeLimit = data['leaveTime'];
+          })
+          .catch(e => {
+            console.log(e);
           })
     }
   }

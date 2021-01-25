@@ -51,7 +51,7 @@ export default {
     getLastWeekNum() {
       this.axios.get(server().http.getLastWeekNum)
           .then((res) => {
-            const data = JSON.parse(res.data);
+            const data = res.data;
             console.log(data);
             this.chartData.datasets[0].data = data['lastWeekNum'];
           })

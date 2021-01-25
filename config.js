@@ -41,6 +41,12 @@ const http = {
   setWaitNumber: 'setWaitNumber', // 设置等待人数上限 { 'waitNumber': 23 }
   setLeaveTime: 'setLeaveTime', // 设置离岗时间上限 { 'leaveTime': 12 }
   setContactTime: 'setContactTime', // 设置接触时间上限 { 'contactTime': 12 }
+  getEntrySize: 'getEntrySize', // 获取客流上限 { 'entrySize': 13 }
+  getBankCapacity: 'getBankCapacity', // 获取停留人数上限 { 'bankCapacity': 34 }
+  getWaitTime: 'getWaitTime', // 获取停留时间上限 { 'waitTime': 12 }
+  getWaitNumber: 'getWaitNumber', // 获取等待人数上限 { 'waitNumber': 23 }
+  getLeaveTime: 'getLeaveTime', // 获取离岗时间上限 { 'leaveTime': 12 }
+  getContactTime: 'getContactTime', // 获取接触时间上限 { 'contactTime': 12 }
   getLastWeekNum: 'getLastWeekNum', // 获取历史七天客流 { 'lastWeekNum': [3, 3, 7, 9, 2, 3, 6] }
   backgroundShot: 'backgroundShot', // 遗留物品检测背景拍摄
 }

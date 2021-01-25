@@ -18,8 +18,11 @@ export default {
     return {
       currentStay: '无',
       todayFlow: '无',
-      flowLimit: 200
+      flowLimit: ''
     }
+  },
+  mounted() {
+    this.getEntrySize();
   },
   methods: {
     submitEntrySize() {
@@ -31,6 +34,16 @@ export default {
           .catch(e => {
             console.log(e);
             this.$message.error('客流上限设置失败');
+          })
+    },
+    getEntrySize() {
+      this.axios.get(server().http.getEntrySize)
+          .then(res => {
+            const data = res.data;
+            this.flowLimit = data['entrySize']
+          })
+          .catch(e => {
+            console.log(e)
           })
     }
   }

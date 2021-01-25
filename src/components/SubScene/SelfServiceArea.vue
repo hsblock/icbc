@@ -63,11 +63,11 @@ export default {
   data() {
     return {
       num: 10,
-      numLimit: 10,
+      numLimit: '',
       stayTime: 5,
-      stayTimeLimit: 15,
+      stayTimeLimit: '',
       contactTime: '无',
-      contactTimeLimit: 5,
+      contactTimeLimit: '',
       chartData: {
         labels: Array.from({length: 9}).map((_, i) => 9 + i),
         datasets: [
@@ -123,10 +123,8 @@ export default {
     }
   },
   mounted() {
-    this.openNumQueue();
-    this.openMostStaningTime();
-    this.openLatestDay();
-    this.openMostContactTime();
+    this.openWebSocket();
+    this.getInitialData();
   },
   beforeDestroy() {
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
@@ -135,6 +133,17 @@ export default {
     this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
   },
   methods: {
+    openWebSocket() {
+      this.openNumQueue();
+      this.openMostStaningTime();
+      this.openLatestDay();
+      this.openMostContactTime();
+    },
+    getInitialData() {
+      this.getContactTime();
+      this.getWaitNumber();
+      this.getWaitTime();
+    },
     openNumQueue() {
       this.wsNumQueue = new WebSocket(server().ws.numQueue);
       this.wsNumQueue.onopen = () => console.log("num queue open")
@@ -210,6 +219,39 @@ export default {
           .catch(e => {
             console.log(e)
             this.$message({type: 'error', message: '设置接触时间上限失败'})
+          })
+    },
+    getWaitNumber() {
+      this.axios.get(server().http.getWaitNumber)
+          .then(res => {
+            const data = res.data;
+            console.log(data)
+            this.numLimit = data['waitNumber'];
+          })
+          .catch(e => {
+            console.log(e);
+          })
+    },
+    getWaitTime() {
+      this.axios.get(server().http.getWaitTime)
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            this.stayTimeLimit = data['waitTime'];
+          })
+          .catch(e => {
+            console.log(e);
+          })
+    },
+    getContactTime() {
+      this.axios.get(server().http.getContactTime)
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            this.contactTimeLimit = res['contactTime'];
+          })
+          .catch(e => {
+            console.log(e);
           })
     }
   }
