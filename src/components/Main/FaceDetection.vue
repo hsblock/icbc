@@ -63,7 +63,7 @@ export default {
           this.infos.splice(0, this.infos.length - 5);
         }
         this.infos.push({
-          img: data['img'],
+          img: "data:image/png;base64," + data['img'],
           gender: data['gender'],
           age: data['age'],
           key: this.key++
