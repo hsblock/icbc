@@ -1,23 +1,30 @@
 # icbc
 
-### 使用步骤
+### 使用方法
 
-1. git项目代码
+可以选择下面两种方法使用：
+
+1. git 项目使用（每次使用 git pull 远程分支即可）
+   1. git项目代码
 
    ```bash
    git clone https://github.com/hsblock/icbc.git
    ```
 
-2. 切换到 dist 分支
+   2. 切换到 dist 分支
 
    ```bash
    cd icbc
    git checkout dist
    ```
 
-3. 浏览器打开 index.html 即可调试（使用 Internet Explorer 会出现不兼容的情况）
+   3. 浏览器打开 index.html 即可调试（使用 Internet Explorer 会出现不兼容的情况）
 
-4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
+   4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
+
+2. 下载 [releases](https://github.com/hsblock/icbc/releases/tag/dist)
+
+   解压后浏览器打开 index.html 即可使用（每次使用需下载最新压缩包使用）
 
 ### 跨域问题
 
