@@ -22,7 +22,7 @@
 
    4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
 
-2. 下载 [releases](https://github.com/hsblock/icbc/releases/tag/dist)
+2. 下载 [releases](https://github.com/hsblock/icbc/releases)
 
    解压后浏览器打开 index.html 即可使用
 
