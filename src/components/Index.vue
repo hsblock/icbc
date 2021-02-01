@@ -23,7 +23,8 @@
 
 <script>
 import Settings from "@/components/common/Settings";
-import {server} from "../../config";
+import {server, version} from "../../config";
+import {versionCompare} from "@/utils/develop";
 
 export default {
   name: "Index",
@@ -49,6 +50,20 @@ export default {
   mounted() {
     window.setInterval(this.handleTime, 1000);
     this.openWarning();
+    this.axios.get('https://api.github.com/repos/hsblock/icbc/releases/latest')
+        .then(res => {
+          const data = res.data;
+          const newVersion = data.name;
+          if (versionCompare(newVersion, version) === 1) {
+            this.$notify({
+              title: '版本过旧',
+              message: '请前往<a href="https://github.com/hsblock/icbc/releases/tag/dist" target="_blank">releases</a>下载最新版本使用！'
+            })
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        })
   },
   destroyed() {
     window.clearInterval(this.handleTime);

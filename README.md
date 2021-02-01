@@ -4,7 +4,7 @@
 
 可以选择下面两种方法使用：
 
-1. git 项目使用（每次使用 git pull 远程分支即可）
+1. git 项目使用
    1. git项目代码
 
    ```bash
@@ -24,7 +24,7 @@
 
 2. 下载 [releases](https://github.com/hsblock/icbc/releases/tag/dist)
 
-   解压后浏览器打开 index.html 即可使用（每次使用需下载最新压缩包使用）
+   解压后浏览器打开 index.html 即可使用
 
 ### 跨域问题
 

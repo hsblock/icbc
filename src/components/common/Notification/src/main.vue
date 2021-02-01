@@ -8,7 +8,7 @@
       <div class="notification-content">
         <h2 class="notification-title">{{ title }}</h2>
         <div v-show="message" class="notification-message">
-          <p>{{ message }}</p>
+          <p v-html="message"></p>
         </div>
         <svg
             v-if="showClose"
@@ -103,7 +103,7 @@ export default {
     .notification-title {
       font-weight: bold;
       font-size: 16px;
-      color: #303133;
+      color: #101111;
       margin: 0;
     }
     
@@ -111,7 +111,8 @@ export default {
       font-size: 14px;
       line-height: 21px;
       margin: 6px 0 0;
-      color: #606266;
+      //color: #606266;
+      color: #202122;
       text-align: justify;
       
       p {

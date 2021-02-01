@@ -1,3 +1,5 @@
+export const version = 'ICBC v1.1.0'
+
 const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
 const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');
 const httpPort = () => (window.localStorage.getItem('httpPort') || '8000');
