@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  name: "Main",
   data() {
     return {
       visible: true,

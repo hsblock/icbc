@@ -4,7 +4,6 @@
       <div class="left">
         <Video />
         <secure-area />
-        <Warning />
       </div>
       <div class="right">
         <self-service-area />

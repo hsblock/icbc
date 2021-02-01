@@ -17,7 +17,7 @@ function addPrefix(obj, prefix) {
 }
 
 const ws = {
-  warning: 'warning', // 统一对项目中的报警进行管理
+  warning: 'warning', // 统一对项目中的报警进行管理 { 'message': message }
   numQueue: 'numQueue', // 获取当前选定区域排队人数 { 'numberOfQueue': 12 }
   mostStaningTime: 'mostStaningTime', // 获取当前区域最长停留时间 { 'mostStaningTime': 123 }
   mostContactTime: 'mostContactTime', // 获取最长接触时间 { mostContactTime: 12 }
@@ -34,7 +34,7 @@ const ws = {
 }
 
 const http = {
-  selectPerson: 'selectPerson',
+  selectPerson: 'selectPerson', // 人员追踪 { 'x': 0.13, 'y': 0.24 }
   setEntrySize: 'setEntrySize', // 设置客流上限 { 'entrySize': 13 }
   setBankCapacity: 'setBankCapacity', // 设置停留人数上限 { 'bankCapacity': 34 }
   setWaitTime: 'setWaitTime', // 设置停留时间上限 { 'waitTime': 12 }

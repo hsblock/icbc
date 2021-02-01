@@ -23,6 +23,7 @@
 
 <script>
 import Settings from "@/components/common/Settings";
+import {server} from "../../config";
 
 export default {
   name: "Index",
@@ -30,13 +31,16 @@ export default {
   data() {
     return {
       title: "副场景",
-      link: '/sub',
       time: '--/--/--',
+      ws: null
     }
   },
   watch: {
     $route(to, from) {
       this.handleRouteChange();
+    },
+    title(newVal) {
+      document.title = `工行-${newVal}`;
     }
   },
   created() {
@@ -44,23 +48,36 @@ export default {
   },
   mounted() {
     window.setInterval(this.handleTime, 1000);
+    this.openWarning();
   },
   destroyed() {
-    window.clearInterval(this.handleTime)
+    window.clearInterval(this.handleTime);
+    this.ws && this.ws.close(1000, 'warning destroy');
   },
   methods: {
     handleRouteChange() {
       const path = this.$route.path.toLocaleLowerCase();
       if (path.includes('sub'.toLocaleLowerCase())) {
-        this.title = "主场景";
-        this.link = "/";
-      } else {
         this.title = "副场景";
-        this.link = "/sub"
+      } else {
+        this.title = "主场景";
       }
     },
     handleTime() {
       this.time = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+    },
+    openWarning() {
+      this.ws = new WebSocket(server().ws.warning);
+      this.ws.onopen = () => console.log("warning open");
+      this.ws.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        this.$notify(data['message'])
+      };
+      this.ws.onerror = (e) => {
+        console.log(e);
+      };
+      this.ws.onclose = () => console.log("warning close");
     }
   }
 }
