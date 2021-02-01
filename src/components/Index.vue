@@ -57,7 +57,7 @@ export default {
           if (versionCompare(newVersion, version) === 1) {
             this.$notify({
               title: '版本过旧',
-              message: '请前往<a href="https://github.com/hsblock/icbc/releases/tag/dist" target="_blank">releases</a>下载最新版本使用！'
+              message: '请前往<a href="https://github.com/hsblock/icbc/releases" target="_blank">releases</a>下载最新版本使用！'
             })
           }
         })
