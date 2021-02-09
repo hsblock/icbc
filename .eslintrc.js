@@ -17,6 +17,7 @@ module.exports = {
     'vue/no-unused-components': 'off',
     'vue/html-self-closing': 'off',
     'vue/singleline-html-element-content-newline': 'off',
-    'vue/no-v-html': 'off'
+    'vue/no-v-html': 'off',
+    'vue/require-default-prop': 'off'
   }
 }

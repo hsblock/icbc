@@ -4,7 +4,7 @@
       客流统计信息
     </h2>
     <div class="pass-flow-stat-wrapper">
-      <TodayFlow />
+      <TodayFlow @todayFlowChange="todayFlowChange" />
       <SevenDayFlow />
     </div>
   </div>
@@ -16,7 +16,12 @@
 
   export default {
     name: "PassFlowStat",
-    components: {SevenDayFlow, TodayFlow}
+    components: {SevenDayFlow, TodayFlow},
+    methods: {
+      todayFlowChange(data) {
+        this.$emit('todayFlowChange', data);
+      }
+    }
   }
 </script>
 
@@ -39,7 +44,7 @@
     display: flex;
     height: calc(100% - 32px);
   }
-  
+
   .pass-flow-stat-wrapper > div {
     background: #ffffff;
     margin: 0.5rem;

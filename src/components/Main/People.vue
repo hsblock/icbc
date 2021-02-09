@@ -14,11 +14,14 @@ import {server} from "../../../config";
 
 export default {
   name: "People",
+  props: {
+    todayFlow: Number
+  },
   data() {
     return {
       currentStay: '无',
-      todayFlow: '无',
-      flowLimit: ''
+      flowLimit: '',
+      wsTodayFlow: null,
     }
   },
   mounted() {

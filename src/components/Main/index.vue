@@ -5,8 +5,8 @@
       <AreaData />
     </div>
     <div class="right">
-      <People />
-      <PassFlowStat />
+      <People :today-flow="todayFlow" />
+      <PassFlowStat @todayFlowChange="setTodayFlow" />
       <PassFlowStru />
       <FaceDetection />
     </div>
@@ -24,6 +24,16 @@
   export default {
     name: "Main",
     components: { PassFlowStru, PassFlowStat, People, AreaData, Video, FaceDetection },
+    data() {
+      return {
+        todayFlow: 0
+      }
+    },
+    methods: {
+      setTodayFlow(data) {
+        this.todayFlow = data;
+      }
+    }
   }
 </script>
 
