@@ -14,37 +14,37 @@
 </template>
 
 <script>
-  import Video from "@/components/common/Video";
-  import SecureArea from "@/components/SubScene/SecureArea";
-  import WelcomeArea from "@/components/SubScene/WelcomeArea";
-  import SelfServiceArea from "@/components/SubScene/SelfServiceArea";
-  import Warning from "@/components/SubScene/Warning";
+import Video from "@/components/common/Video";
+import SecureArea from "@/components/SubScene/SecureArea";
+import WelcomeArea from "@/components/SubScene/WelcomeArea";
+import SelfServiceArea from "@/components/SubScene/SelfServiceArea";
+import Warning from "@/components/SubScene/Warning";
 
-  export default {
-    name: "SubScene",
-    components: {Warning, SecureArea, WelcomeArea, SelfServiceArea, Video}
-  }
+export default {
+  name: "SubScene",
+  components: {Warning, SecureArea, WelcomeArea, SelfServiceArea, Video}
+}
 </script>
 
 <style scoped>
-  .main-container {
-    display: flex;
-    justify-content: space-between;
-    height: calc(100vh - 48px);
-    box-sizing: border-box;
-  }
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 48px);
+  box-sizing: border-box;
+}
 
-  .main-container .left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 50%;
-    max-width: 70%;
-  }
+.main-container .left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 50%;
+  max-width: 70%;
+}
 
-  .main-container .right {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
+.main-container .right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 </style>

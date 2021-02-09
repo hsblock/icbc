@@ -7,7 +7,7 @@ import Notification from "@/components/common/Notification";
 
 import App from './App.vue'
 import router from './router'
-import "./assets/global.css"
+import "./assets/css/global.css"
 import './assets/js/iconfont'
 
 Vue.config.productionTip = false;

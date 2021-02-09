@@ -1,7 +1,7 @@
 <template>
   <div class="video-container">
     <div class="video-wrapper">
-      <img ref="img" src="../../assets/Cyberpunk.jpg" alt="" class="video">
+      <img ref="img" src="../../assets/img/Cyberpunk.jpg" alt="" class="video">
     </div>
   </div>
 </template>
