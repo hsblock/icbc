@@ -55,7 +55,7 @@ export default {
             console.log(data);
             this.chartData.datasets[0].data = data['lastWeekNum'];
           })
-          .catch(e => console.log(e))
+          .catch(e => console.error(e.message))
     }
   }
 }

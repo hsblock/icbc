@@ -229,7 +229,7 @@ export default {
             this.$message({type: 'success', message: `最大排队人数成功被设置为${this.numLimit}`})
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
             this.$message({type: 'error', message: '设置排队人数上限失败'})
           })
     },
@@ -240,7 +240,7 @@ export default {
             this.$message({type: 'success', message: `停留时间上限成功被设置为${this.numLimit}`})
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
             this.$message({type: 'error', message: '设置停留时间上限失败'})
           })
     },
@@ -251,7 +251,7 @@ export default {
             this.$message({type: 'success', message: `接触时间上限成功被设置为${this.numLimit}`})
           })
           .catch(e => {
-            console.log(e)
+            console.error(e.message)
             this.$message({type: 'error', message: '设置接触时间上限失败'})
           })
     },
@@ -263,7 +263,7 @@ export default {
             this.numLimit = data['waitNumber'];
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
           })
     },
     getWaitTime() {
@@ -274,7 +274,7 @@ export default {
             this.stayTimeLimit = data['waitTime'];
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
           })
     },
     getContactTime() {
@@ -285,7 +285,7 @@ export default {
             this.contactTimeLimit = res['contactTime'];
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
           })
     }
   }

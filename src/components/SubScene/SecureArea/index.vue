@@ -27,7 +27,7 @@ export default {
             this.$message.success('背景图片拍摄成功');
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
             this.$message.error('背景图片拍摄失败');
           })
     }

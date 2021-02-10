@@ -116,7 +116,7 @@ export default {
             this.$message.success('离岗时间上限成功被设置为' + this.staff.leaveTimeLimit);
           })
           .catch((e) => {
-            console.log(e);
+            console.error(e.message);
             this.$message.error('离岗时间上限设置失败');
           })
     },
@@ -128,7 +128,7 @@ export default {
             this.staff.leaveTimeLimit = data['leaveTime'];
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
           })
     }
   }

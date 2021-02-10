@@ -49,7 +49,7 @@ export default {
             this.$message.success('客流上限已经成功被设置为' + this.flowLimit);
           })
           .catch(e => {
-            console.log(e);
+            console.error(e.message);
             this.$message.error('客流上限设置失败');
           })
     },
@@ -60,7 +60,7 @@ export default {
             this.flowLimit = data['entrySize']
           })
           .catch(e => {
-            console.log(e)
+            console.error(e.message)
           })
     }
   }

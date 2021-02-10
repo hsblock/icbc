@@ -61,7 +61,7 @@ export default {
       const [perX, perY] = [(x - left) / imgWidth, (y - top) / imgHeight];
       this.axios.post(server().http.selectPerson, qs.stringify({x: perX, y: perY}))
           .then(e => console.log(e))
-          .catch(error => console.log(error))
+          .catch(error => console.error(error.message))
     }
   }
 }
