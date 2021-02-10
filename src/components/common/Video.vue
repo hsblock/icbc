@@ -1,13 +1,14 @@
 <template>
   <div class="video-container">
     <div class="video-wrapper">
-      <img ref="img" src="../../assets/img/Cyberpunk.jpg" alt="" class="video">
+      <img ref="img" :src="placeholder" alt="" class="video">
     </div>
   </div>
 </template>
 
 <script>
 import { server } from "../../../config";
+import icbc from '@/assets/img/icbc.jpg'
 import qs from "qs";
 
 export default {
@@ -31,6 +32,7 @@ export default {
           type: "application/x-mpegURL"
         }]
       },
+      placeholder: icbc,
       ws: null
     }
   },
