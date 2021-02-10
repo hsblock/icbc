@@ -19,14 +19,24 @@
               <span>状态:</span>
               <span>{{ staff.status }}</span>
             </div>
-            <div class="time">
+            <div class="time leave-time-limit">
               <span>离岗时间上限:</span>
-              <form action="" @submit.prevent="submitLeaveTime">
-                <input
-                    v-model="staff.leaveTimeLimit"
-                    type="text"
-                />分钟
-              </form>
+              <span @click="staff.leaveTimeVisible = true">
+                {{ staff.leaveTimeLimit }}
+              </span>
+              <bshz-dialog :visible.sync="staff.leaveTimeVisible">
+                <span slot="title">设置离岗时间上限</span>
+                <form action="" @submit.prevent="submitLeaveTime">
+                  离岗时间上限:
+                  <input v-model="staff.leaveTimeLimit" type="text">
+                </form>
+                <span slot="footer">
+                <button class="cancel" @click="staff.leaveTimeVisible = false">
+                  取消
+                </button>
+                <button class="confirm" @click="submitLeaveTime">确定</button>
+              </span>
+              </bshz-dialog>
             </div>
           </div>
         </div>
@@ -56,7 +66,8 @@ export default {
         name: '张三',
         age: '20201215',
         status: '...',
-        leaveTimeLimit: ''
+        leaveTimeLimit: '0',
+        leaveTimeVisible: false
       },
       ws: null,
       chartData: {
@@ -195,14 +206,44 @@ export default {
       padding: 0.5rem;
     }
 
-    > form {
-      display: inline-block;
+    &.leave-time-limit {
 
-      input {
+      span:nth-child(2) {
+        background: #fff;
+        border-radius: 2px;
+        border: 1px solid #dcdfe6;
+        color: #606266;
         display: inline-block;
-        width: 60px;
         box-sizing: border-box;
+        text-align: center;
+        width: 60px;
         padding: 0.5rem;
+        cursor: pointer;
+        transition: 0.1s;
+
+        &:hover {
+          color: #409eff;
+          border-color: #c6e2ff;
+          background: #ecf5ff;
+        }
+
+        &:active {
+          color: #3a8ee6;
+          border-color: #3a8ee6;
+          outline: none;
+        }
+      }
+
+      form {
+        display: inline-block;
+
+        input {
+          height: 32px;
+          width: 100px;
+          padding: 4px 12px;
+          box-sizing: border-box;
+          font-size: 1rem;
+        }
       }
     }
   }

@@ -4,6 +4,7 @@ import VueAxios from "vue-axios";
 
 import Message from "@/components/common/Message";
 import Notification from "@/components/common/Notification";
+import Dialog from "@/components/common/Dialog"
 
 import App from './App.vue'
 import router from './router'
@@ -16,7 +17,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 Vue.use(VueAxios, axios);
 
 Vue.use(Message);
-Vue.use(Notification)
+Vue.use(Notification);
+Vue.component(Dialog.name, Dialog);
 
 new Vue({
   router,

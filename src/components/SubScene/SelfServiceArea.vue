@@ -10,9 +10,20 @@
           </div>
           <div>
             <span>排队人数上限</span>
-            <form action="" @submit.prevent="submitWaitNumber">
-              <input v-model="numLimit" type="text">
-            </form>
+            <span @click="numVisible = true">{{ numLimit }}</span>
+            <bshz-dialog :visible.sync="numVisible">
+              <span slot="title">设置排队人数上限</span>
+              <form action="" @submit.prevent="submitWaitNumber">
+                排队人数上限:
+                <input v-model="numLimit" type="text">
+              </form>
+              <span slot="footer">
+                <button class="cancel" @click="numVisible = false">
+                  取消
+                </button>
+                <button class="confirm" @click="submitWaitNumber">确定</button>
+              </span>
+            </bshz-dialog>
           </div>
         </div>
         <div class="row">
@@ -21,11 +32,21 @@
             <span>{{ stayTime }}</span>
           </div>
           <div>
-            <span>等待时间上限</span>
-            <form action="" @submit.prevent="submitWaitTime">
-              <input v-model="stayTimeLimit" type="text">
-              <span>分钟</span>
-            </form>
+            <span>停留时间上限</span>
+            <span @click="stayVisible = true">{{ stayTimeLimit }}</span>
+            <bshz-dialog :visible.sync="stayVisible">
+              <span slot="title">设置停留时间上限</span>
+              <form action="" @submit.prevent="submitWaitTime">
+                停留时间上限:
+                <input v-model="stayTimeLimit" type="text">
+              </form>
+              <span slot="footer">
+                <button class="cancel" @click="stayVisible = false">
+                  取消
+                </button>
+                <button class="confirm" @click="submitWaitTime">确定</button>
+              </span>
+            </bshz-dialog>
           </div>
         </div>
         <div class="row">
@@ -35,10 +56,20 @@
           </div>
           <div>
             <span>接触时间上限</span>
-            <form action="" @submit.prevent="submitContactTime">
-              <input v-model="contactTimeLimit" type="text">
-              <span>分钟</span>
-            </form>
+            <span @click="contactVisible = true">{{ contactTimeLimit }}</span>
+            <bshz-dialog :visible.sync="contactVisible">
+              <span slot="title">设置接触时间上限</span>
+              <form action="" @submit.prevent="submitContactTime">
+                接触时间上限:
+                <input v-model="contactTimeLimit" type="text">
+              </form>
+              <span slot="footer">
+                <button class="cancel" @click="contactVisible = false">
+                  取消
+                </button>
+                <button class="confirm" @click="submitContactTime">确定</button>
+              </span>
+            </bshz-dialog>
           </div>
         </div>
       </div>
@@ -63,11 +94,14 @@ export default {
   data() {
     return {
       num: 10,
-      numLimit: '',
+      numLimit: 0,
+      numVisible: false,
       stayTime: 5,
-      stayTimeLimit: '',
+      stayTimeLimit: 0,
+      stayVisible: false,
       contactTime: '无',
-      contactTimeLimit: '',
+      contactTimeLimit: 0,
+      contactVisible: false,
       chartData: {
         labels: Array.from({length: 9}).map((_, i) => 9 + i),
         datasets: [
@@ -203,11 +237,11 @@ export default {
       this.axios.get(server().http.setWaitTime, {params: {waitTime: this.stayTimeLimit}})
           .then(res => {
             console.log(res);
-            this.$message({type: 'success', message: `等待时间上限成功被设置为${this.numLimit}`})
+            this.$message({type: 'success', message: `停留时间上限成功被设置为${this.numLimit}`})
           })
           .catch(e => {
             console.log(e);
-            this.$message({type: 'error', message: '设置等待时间上限失败'})
+            this.$message({type: 'error', message: '设置停留时间上限失败'})
           })
     },
     submitContactTime() {
@@ -258,7 +292,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .self-service-area-container {
   height: 50%;
   overflow: hidden;
@@ -267,63 +301,97 @@ export default {
   background: #061123;
   border-radius: 5px;
   color: #ffffff;
-}
 
-.self-service-area-container h2 {
-  margin: 0;
-}
+  h2 {
+    margin: 0;
+  }
 
-.self-service-area-wrapper {
-  display: flex;
-  height: calc(100% - 32px);
-  justify-content: space-between;
-  padding: 10px;
-  box-sizing: border-box;
-}
+  .self-service-area-wrapper {
+    display: flex;
+    height: calc(100% - 32px);
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
 
-.self-service-area-wrapper .column {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  margin: 1rem 0;
-}
+    .column {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      margin: 1rem 0;
+    }
 
-.self-service-area-wrapper .row {
-  display: flex;
-  justify-content: space-around;
-}
+    .row {
+      display: flex;
+      justify-content: space-around;
 
-.self-service-area-wrapper .row > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0.25rem 0.5rem;
-}
+      > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0.25rem 0.5rem;
 
-.self-service-area-wrapper .row > div > span {
-  display: inline-block;
-  width: 100px;
-  text-align: center;
-}
+        > span {
+          display: inline-block;
+          width: 100px;
+          text-align: center;
+          border-radius: 2px;
 
-.self-service-area-wrapper .row > div > span:last-child {
-  background: #4BC0C0;
-  width: 40px;
-  height: 20px;
-  padding: 5px 8px;
-  margin: 4px 0;
-}
+          &:last-child {
+            background: #4BC0C0;
+            width: 40px;
+            height: 20px;
+            padding: 5px 8px;
+            margin: 4px 0;
+          }
+        }
 
-.self-service-area-wrapper .row > div > form > input {
-  width: 40px;
-  height: 20px;
-  padding: 5px 8px;
-  margin: 4px 0;
-}
+        &:last-child {
 
-.self-service-area-wrapper .stay-time {
-  height: 100%;
-  margin-left: 10px;
-  background: #ffffff;
+          > span:nth-child(2) {
+            background: #fff;
+            border-radius: 2px;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            cursor: pointer;
+            transition: 0.1s;
+            width: 40px;
+            height: 20px;
+            padding: 5px 8px;
+            margin: 4px 0;
+
+            &:hover {
+              color: #409eff;
+              border-color: #c6e2ff;
+              background: #ecf5ff;
+            }
+
+            &:active {
+              color: #3a8ee6;
+              border-color: #3a8ee6;
+              outline: none;
+            }
+          }
+
+          form {
+            display: inline-block;
+
+            input {
+              height: 32px;
+              width: 100px;
+              padding: 4px 12px;
+              box-sizing: border-box;
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    .stay-time {
+      height: 100%;
+      margin-left: 10px;
+      background: #ffffff;
+    }
+  }
 }
 </style>
