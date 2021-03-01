@@ -8,18 +8,12 @@ export const versionCompare = (v1, v2) => {
   console.log("v2: ", v2Match);
   const v1Arr = v1Match.split('.');
   const v2Arr = v2Match.split('.');
-  for (let i = 0; i < Math.min(v1Arr.length, v2Arr.length); i++) {
+  for (let i = 0; i < 2; i++) {
     if (+v1Arr[i] > +v2Arr[i]) {
       return 1;
     } else if (+v2Arr[i] > v1Arr[i]) {
       return -1;
     }
   }
-  if (v1Arr.length > v2Arr.length) {
-    return 1;
-  } else if (v2Arr.length > v1Arr.length)  {
-    return -1;
-  } else {
-    return 0;
-  }
+  return 0;
 }

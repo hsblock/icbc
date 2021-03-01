@@ -206,7 +206,7 @@ export default {
       this.wsMostContactTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.stayTime = data['mostContactTime'];
+        this.contactTime = data['mostContactTime'];
       }
       this.wsMostContactTime.onerror = (error) => console.log(error)
       this.wsMostContactTime.onclose = () => console.log("most contact time close")
