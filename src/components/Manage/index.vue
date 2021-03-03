@@ -7,8 +7,10 @@
       </select>
       <button @click="selectTopic">Send</button>
     </label>
-    <div ref="cv">
-      <canvas width="800" height="600" style="background: #ffffff">
+    <div ref="cv" class="canvas-container">
+      <canvas width="800" height="600">
+      </canvas>
+      <canvas width="800" height="600">
       </canvas>
     </div>
   </div>
@@ -25,7 +27,6 @@ export default {
       topic: '',
       arr: [],
       bgImg: null,
-      canvasHistory: [],
     }
   },
   mounted() {
@@ -33,72 +34,60 @@ export default {
     const data = res.data;
     let cv = this.$refs.cv.children[0];
     let ctx = cv.getContext('2d')
+    let cv1 = this.$refs.cv.children[1];
+    let ctx1 = cv1.getContext('2d')
 
     ctx.lineWidth = 3;
     ctx.fillStyle = 'red';
     ctx.strokeStyle = 'red';
-    console.log(ctx);
     ctx.beginPath();
 
     this.bgImg = new Image();
     this.bgImg.src = data['img'];
-    this.bgImg.onload = () => {ctx.drawImage(this.bgImg, 0, 0, 800, 600)}
+    this.bgImg.onload = () => {ctx1.drawImage(this.bgImg, 0, 0, 800, 600)}
     document.oncontextmenu = () => false;
-    this.$refs.cv.onmousedown = (e) => {
+    const rects = cv.getBoundingClientRect();
+    cv.onmousedown = (e) => {
       console.log(e)
       // 左键点击绘图
       if (e.buttons === 1) {
-        let [x, y] = [e.clientX - cv.offsetLeft, e.clientY - cv.offsetTop]
+        let [x, y] = [e.clientX - rects.left, e.clientY - rects.top]
         if (this.arr.length > 0) {
           // 已经有点了
           if (this.minDistance([x, y], this.arr[0])) {
             [x, y] = this.arr[0];
           }
           this.arr.push([x, y]);
-          this.canvasHistory.push(cv.toDataURL());
           ctx.lineTo(x, y);
           ctx.stroke();
           console.log("1:", this.arr);
-          console.log(this.canvasHistory.length);
         } else {
           // 第一个点
           this.arr.push([x, y]);
-          this.canvasHistory.push(cv.toDataURL());
           ctx.arc(x, y, 1, 0, 2 * Math.PI);
           ctx.stroke();
           ctx.moveTo(x, y);
           console.log("0:", this.arr);
-          console.log(this.canvasHistory.length);
         }
       } else if (e.buttons === 2) {
         // 右键点击取消
-        this.$refs.cv.removeChild(cv);
-        cv = document.createElement('canvas');
-        cv.width = 800;
-        cv.height = 600;
-        ctx = cv.getContext('2d');
-        this.$refs.cv.appendChild(cv);
-
-        this.arr.pop();
-        const canvasImg = new Image();
-        canvasImg.src = this.canvasHistory.pop();
-        console.log(this.canvasHistory.length);
-        console.log(cv, ctx)
-        canvasImg.onload = () => {
-          ctx.drawImage(canvasImg, 0, 0, 800, 600);
+        if (this.arr.length > 0) {
+          ctx.closePath();
           ctx.beginPath();
-          ctx.moveTo(...this.arr[this.arr.length - 1]);
+          ctx.clearRect(0, 0, 800, 600);
+
+          this.arr.pop()
+          this.arr.forEach(([x, y], i) => {
+            if (i === 0) {
+              ctx.arc(x, y, 1, 0, 2 * Math.PI);
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          })
+          ctx.stroke();
         }
       }
-      // document.onmousemove = function (e) {
-      //   var e = e || window.event;
-      //   ctx.lineTo(e.clientX - cv.offsetLeft, e.clientY - cv.offsetTop);
-      //   ctx.stroke();
-      // }
-      // document.onmouseup = function () {
-      //   document.onmousemove = null;
-      //   document.onmouseup = null;
-      // }
     }
   },
   methods: {
@@ -106,7 +95,7 @@ export default {
       this.axios.get(server().http.areaHandle, {params: {flag: 'get_image', topic: this.topic}})
         .then(res => {
           const data = res.data;
-          let ctx = this.$refs.cv.getContext('2d')
+          let ctx = this.$refs.cv.children[1].getContext('2d')
           ctx.drawImage('data:image/png;base64,' + data['img'])
         })
     },
@@ -131,6 +120,23 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  .canvas-container {
+    position: relative;
+
+    canvas:nth-child(1) {
+      position: relative;
+      background: rgba(255, 255, 255, 0);
+      z-index: 10;
+    }
+
+    canvas:nth-child(2) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
 
   label {
     margin-bottom: 1rem;
