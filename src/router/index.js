@@ -19,6 +19,11 @@ export default new VueRouter({
           path: '/sub',
           name: 'SubScene',
           component: () => import('../components/SubScene')
+        },
+        {
+          path: '/manage',
+          name: 'Manage',
+          component: () => import('../components/Manage')
         }
       ]
     }

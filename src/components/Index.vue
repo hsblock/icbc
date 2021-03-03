@@ -18,6 +18,13 @@
     </nav>
     <settings />
     <router-view />
+    <div class="manage">
+      <RouterLink to="/manage">
+        <svg class="iconfont" aria-hidden="true">
+          <use xlink:href="#icon-manage"></use>
+        </svg>
+      </RouterLink>
+    </div>
   </div>
 </template>
 
@@ -134,7 +141,14 @@ export default {
   color: #4285F4;
 }
 
-.router-link-exact-active {
+.manage {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  color: #ffffff;
+}
+
+.router-link-exact-active.link {
   background: lightgreen;
 }
 </style>
