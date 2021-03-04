@@ -1,9 +1,9 @@
-export const version = 'ICBC v1.3.1'
+export const version = 'ICBC v1.3.1';
 
-const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
-const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');
-const httpPort = () => (window.localStorage.getItem('httpPort') || '8000');
-const websocketPort = () => (window.localStorage.getItem('websocketPort') || '8000');
+export const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
+export const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');
+export const httpPort = () => (window.localStorage.getItem('httpPort') || '8000');
+export const websocketPort = () => (window.localStorage.getItem('websocketPort') || '8000');
 
 const websocketServer = () => `ws://${websocketUrl()}:${websocketPort()}/`;
 const httpServer = () => `http://${httpUrl()}:${httpPort()}/`;
@@ -51,7 +51,7 @@ const http = {
   getContactTime: 'getContactTime', // 获取接触时间上限 { 'contactTime': 12 }
   getLastWeekNum: 'getLastWeekNum', // 获取历史七天客流 { 'lastWeekNum': [3, 3, 7, 9, 2, 3, 6] }
   backgroundShot: 'backgroundShot', // 遗留物品检测背景拍摄
-  areaHandle: 'areaHandle', // 选取区域
+  areaHandle: 'areaHandle', // 区域划分
 }
 
 export const server = () => {

@@ -1,0 +1,1 @@
+exports.httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');

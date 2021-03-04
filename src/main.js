@@ -13,7 +13,8 @@ import './assets/js/iconfont'
 
 Vue.config.productionTip = false;
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.withCredentials = true;
 Vue.use(VueAxios, axios);
 
 Vue.use(Message);

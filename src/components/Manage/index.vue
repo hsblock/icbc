@@ -5,7 +5,8 @@
         <option value="entry" selected>entry</option>
         <option value="dangerous_goods">dangerous_goods</option>
       </select>
-      <button @click="selectTopic">Send</button>
+      <button @click="selectTopic">Send Topic</button>
+      <button @click="selectArea">Send Area</button>
     </label>
     <div ref="cv" class="canvas-container">
       <canvas width="800" height="600">
@@ -18,7 +19,8 @@
 
 <script>
 import {server} from "../../../config";
-import icbc from '@/assets/img/icbc.jpg'
+import icbc from '@/assets/img/icbc.jpg';
+import service from "@/utils/service";
 
 export default {
   name: "Manage",
@@ -44,14 +46,16 @@ export default {
 
     this.bgImg = new Image();
     this.bgImg.src = data['img'];
-    this.bgImg.onload = () => {ctx1.drawImage(this.bgImg, 0, 0, 800, 600)}
+    this.bgImg.onload = () => {
+      ctx1.drawImage(this.bgImg, 0, 0, 800, 600)
+    }
     document.oncontextmenu = () => false;
     const rects = cv.getBoundingClientRect();
     cv.onmousedown = (e) => {
       console.log(e)
       // 左键点击绘图
       if (e.buttons === 1) {
-        let [x, y] = [e.clientX - rects.left, e.clientY - rects.top]
+        let [x, y] = [Math.round(e.clientX - rects.left), Math.round(e.clientY - rects.top)];
         if (this.arr.length > 0) {
           // 已经有点了
           if (this.minDistance([x, y], this.arr[0])) {
@@ -92,15 +96,37 @@ export default {
   },
   methods: {
     selectTopic() {
-      this.axios.get(server().http.areaHandle, {params: {flag: 'get_image', topic: this.topic}})
-        .then(res => {
-          const data = res.data;
-          let ctx = this.$refs.cv.children[1].getContext('2d')
-          ctx.drawImage('data:image/png;base64,' + data['img'])
-        })
+      service.get('areaHandle', {params: {flag: 'get_image', topic: this.topic}})
+          .then(res => {
+            const data = res.data;
+            console.log(data)
+            let ctx = this.$refs.cv.children[1].getContext('2d');
+            const img = new Image();
+            img.src = 'data:image/png;base64,' + data['img'];
+            img.onload = () => {
+              ctx.drawImage(img, 0, 0, 800, 600);
+            }
+            this.$message.success('选取主题成功');
+          })
+          .catch(e => {
+            this.$message.error('选取主题失败');
+            console.error(e);
+          })
     },
     selectArea() {
-
+      setInterval(() => {
+        service.post('areaHandle',
+            {flag: 'send_area', topic: this.topic, area: this.arr, size: [800, 600]})
+            .then(res => {
+              const data = res.data;
+              console.log(data);
+              this.$message.success('选取区域成功');
+            })
+            .catch(e => {
+              this.$message.error('选取区域失败');
+              console.error(e);
+            })
+      }, 2000)
     },
     minDistance(pos1, pos2) {
       const dx = pos1[0] - pos2[0];
