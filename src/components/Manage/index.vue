@@ -25,7 +25,7 @@ export default {
   name: "Manage",
   data() {
     return {
-      topic: '',
+      topic: 'entry',
       arr: [],
       bgImg: null,
     }

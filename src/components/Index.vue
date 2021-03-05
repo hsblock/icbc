@@ -143,9 +143,10 @@ export default {
 
 .manage {
   position: fixed;
-  bottom: 1rem;
+  top: 52px;
   right: 1rem;
   color: #ffffff;
+  font-size: 2rem;
 }
 
 .router-link-exact-active.link {
