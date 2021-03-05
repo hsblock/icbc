@@ -20,7 +20,6 @@
 <script>
 import {server} from "../../../config";
 import icbc from '@/assets/img/icbc.jpg';
-import service from "@/utils/service";
 
 export default {
   name: "Manage",
@@ -96,7 +95,7 @@ export default {
   },
   methods: {
     selectTopic() {
-      service.get('areaHandle', {params: {flag: 'get_image', topic: this.topic}})
+      this.axios.get(server().http.areaHandle, {params: {flag: 'get_image', topic: this.topic}})
           .then(res => {
             const data = res.data;
             console.log(data)
@@ -115,7 +114,7 @@ export default {
     },
     selectArea() {
       setInterval(() => {
-        service.post('areaHandle',
+        this.axios.post(server().http.areaHandle,
             {flag: 'send_area', topic: this.topic, area: this.arr, size: [800, 600]})
             .then(res => {
               const data = res.data;
