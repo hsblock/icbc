@@ -8,9 +8,10 @@ export const versionCompare = (v1, v2) => {
   console.log("v2: ", v2Match);
   const v1Arr = v1Match.split('.');
   const v2Arr = v2Match.split('.');
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     if (+v1Arr[i] > +v2Arr[i]) {
-      return 1;
+      // 2: 相差大版本, 1: 相差小版本
+      return i === 2 ? 1 : 2;
     } else if (+v2Arr[i] > v1Arr[i]) {
       return -1;
     }

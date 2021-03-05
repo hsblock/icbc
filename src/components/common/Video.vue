@@ -59,7 +59,7 @@ export default {
       const imgWidth = this.$refs.img.clientWidth;
       const imgHeight = this.$refs.img.clientHeight;
       const [perX, perY] = [(x - left) / imgWidth, (y - top) / imgHeight];
-      this.axios.post(server().http.selectPerson, qs.stringify({x: perX, y: perY}))
+      this.axios.post(server().http.selectPerson, {x: perX, y: perY})
           .then(e => console.log(e))
           .catch(error => console.error(error.message))
     }

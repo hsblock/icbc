@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="settings-container">
 		<button ref="btn" class="settings-btn">
       <svg class="iconfont" aria-hidden="true">
         <use xlink:href="#icon-setting"></use>
@@ -63,6 +63,11 @@ export default {
 </script>
 
 <style scoped>
+.settings-container {
+  position: relative;
+  z-index: 100;
+}
+
 .settings-btn {
 	background: transparent;
 	position: fixed;
@@ -87,7 +92,7 @@ export default {
 }
 
 .settings {
-	position: absolute;
+	position: fixed;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);

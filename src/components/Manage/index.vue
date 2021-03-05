@@ -113,19 +113,17 @@ export default {
           })
     },
     selectArea() {
-      setInterval(() => {
-        this.axios.post(server().http.areaHandle,
-            {flag: 'send_area', topic: this.topic, area: this.arr, size: [800, 600]})
-            .then(res => {
-              const data = res.data;
-              console.log(data);
-              this.$message.success('选取区域成功');
-            })
-            .catch(e => {
-              this.$message.error('选取区域失败');
-              console.error(e);
-            })
-      }, 2000)
+      this.axios.post(server().http.areaHandle,
+          {flag: 'send_area', topic: this.topic, area: this.arr, size: [800, 600]})
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            this.$message.success('选取区域成功');
+          })
+          .catch(e => {
+            this.$message.error('选取区域失败');
+            console.error(e);
+          })
     },
     minDistance(pos1, pos2) {
       const dx = pos1[0] - pos2[0];

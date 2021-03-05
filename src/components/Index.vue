@@ -61,11 +61,21 @@ export default {
         .then(res => {
           const data = res.data;
           const newVersion = data.name;
-          if (versionCompare(newVersion, version) === 1) {
+          const vc = versionCompare(newVersion, version);
+          if (vc === 2) {
             this.$notify({
               title: '版本过旧',
               message: '请前往<a href="https://github.com/hsblock/icbc/releases" target="_blank">releases</a>下载最新版本使用！'
             })
+          } else if (vc === 1) {
+            console.log(window.localStorage.getItem('version_warning'))
+            if (window.localStorage.getItem('version_warning') !== newVersion) {
+              this.$notify({
+                title: '版本过旧',
+                message: '请前往<a href="https://github.com/hsblock/icbc/releases" target="_blank">releases</a>下载最新版本使用！'
+              })
+              window.localStorage.setItem('version_warning', newVersion);
+            }
           }
         })
         .catch(e => {
@@ -105,7 +115,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -144,9 +154,36 @@ export default {
 .manage {
   position: fixed;
   top: 52px;
-  right: 1rem;
-  color: #ffffff;
+  right: 0;
   font-size: 2rem;
+  background: #ffffff;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50% 0 0 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(50%);
+  transition: transform .3s ease;
+
+  &:hover {
+    transform: translateX(0);
+
+    .iconfont {
+      transform: rotate(180deg);
+    }
+  }
+
+  a {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+
+    .iconfont {
+      transition: transform .3s ease;
+      vertical-align: 0;
+    }
+  }
 }
 
 .router-link-exact-active.link {
