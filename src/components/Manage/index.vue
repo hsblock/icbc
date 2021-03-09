@@ -1,12 +1,19 @@
 <template>
   <div class="manage-container">
     <label>
-      <select v-model="topic" name="topic">
-        <option value="entry" selected>entry</option>
-        <option value="dangerous_goods">dangerous_goods</option>
-      </select>
-      <button @click="selectTopic">Send Topic</button>
-      <button @click="selectArea">Send Area</button>
+      <el-select v-model="topic" placeholder="请选择">
+        <el-option
+            v-for="item in topics"
+            :key="item.label"
+            :label="item.label"
+            :value="item.value"
+        >
+          <span>{{ item.label }}</span>
+          <span>{{ item.value }}</span>
+        </el-option>
+      </el-select>
+      <el-button type="primary" @click="selectTopic">Send Topic</el-button>
+      <el-button type="primary" @click="selectArea">Send Area</el-button>
     </label>
     <div ref="cv" class="canvas-container">
       <canvas width="800" height="600">
@@ -25,9 +32,17 @@ export default {
   name: "Manage",
   data() {
     return {
-      topic: 'entry',
+      topic: '',
       arr: [],
       bgImg: null,
+      topics: [
+        { label: 'face_area', value: '进店' },
+        { label: 'queue_area', value: '排队' },
+        { label: 'dangerous_data', value: '危险物品' },
+        { label: 'leftover_area', value: '遗留物品' },
+        { label: 'standing_area', value: '停留时间' },
+        { label: 'offline_area', value: '离岗检测' }
+      ]
     }
   },
   mounted() {
@@ -163,6 +178,10 @@ export default {
 
   label {
     margin-bottom: 1rem;
+
+    .el-select {
+      margin-right: 1rem;
+    }
   }
 }
 </style>
