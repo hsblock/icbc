@@ -16,7 +16,7 @@
     "loadsh": "0.0.4",
     "mux.js": "^5.8.0",
     "qs": "^6.9.4",
-    "video.js": "^7.10.2",
+    "video.js": "^7.11.4",
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.11",
     "vue-aliplayer-v2": "^1.2.7",
