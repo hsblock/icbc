@@ -10,6 +10,7 @@
           <el-button
               v-for="item in sources"
               :key="item.name"
+              :class="[activeSource === item.value ? 'active' : '']"
               @click="switchSource(item.value)"
           >
             {{ item.name }}
@@ -43,6 +44,7 @@ export default {
           }
         ]
       },
+      activeSource: server().m3u8.face,
       sources: [
         { name: '进店', value: server().m3u8.face },
         { name: '排队', value: server().m3u8.queue },
@@ -52,6 +54,17 @@ export default {
         { name: '离岗检测', value: server().m3u8.offline }
       ],
       ws: null
+    }
+  },
+  created() {
+    if (this.$route.name === 'SubScene') {
+      if (this.$route.params.source !== undefined) {
+        // 换源切换到副界面
+        this.switchSource(this.$route.params.source);
+      } else {
+        // 点击链接切换到副界面
+        this.switchSource(this.sources[1].value);
+      }
     }
   },
   mounted() {
@@ -92,7 +105,16 @@ export default {
     },
     switchSource(v) {
       console.log(v);
-      this.$refs.video.player.src({src: v, type: 'application/x-mpegURL'})
+      console.log(this.$route)
+      if (this.$route.name === 'Main' && v !== this.sources[0].value) {
+        // 在主界面点击其他视频源，跳转到副界面
+        this.$router.push({ name: 'SubScene', params: { source: v } });
+      } else if (this.$route.name === 'SubScene' && v === this.sources[0].value) {
+        this.$router.push({ name: 'Main' });
+      } else {
+        this.activeSource = v;
+        this.$refs.video.player.src({src: v, type: 'application/x-mpegURL'});
+      }
     }
   }
 }
@@ -152,6 +174,13 @@ export default {
 
           & + button {
             margin-top: 10px;
+          }
+
+          &.active {
+            color: lightblue;
+            font-weight: bold;
+            background: rgba(0, 128, 0, 0.4);
+            border: rgba(255, 255, 255, 0.3) 1px solid;
           }
         }
       }
