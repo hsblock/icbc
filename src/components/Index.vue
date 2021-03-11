@@ -17,7 +17,9 @@
       </div>
     </nav>
     <settings />
-    <router-view />
+    <transition name="router-view" mode="out-in">
+      <router-view class="content-container" />
+    </transition>
     <div class="manage">
       <RouterLink to="/manage">
         <svg class="iconfont" aria-hidden="true">
@@ -143,7 +145,13 @@ export default {
   padding: 0.4rem 1rem;
 }
 
-.index-container {
+.index-container{
+  background: #152242;
+  position: relative;
+  overflow: hidden;
+}
+
+.content-container {
   background: #152242;
 }
 
@@ -188,5 +196,19 @@ export default {
 
 .router-link-exact-active.link {
   background: lightgreen;
+}
+
+.router-view-enter {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.router-view-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.router-view-enter-active, .router-view-leave-active {
+  transition: all 0.3s ease-in-out;
 }
 </style>

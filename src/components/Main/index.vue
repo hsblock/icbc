@@ -43,6 +43,7 @@ export default {
   justify-content: space-between;
   height: calc(100vh - 48px);
   box-sizing: border-box;
+  width: 100vw;
 }
 
 .main-container .left {

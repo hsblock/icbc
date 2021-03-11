@@ -1,6 +1,6 @@
 <template>
   <div class="manage-container">
-    <label>
+    <div class="manager-wrapper">
       <el-select v-model="topic" placeholder="请选择">
         <el-option
             v-for="item in topics"
@@ -8,13 +8,11 @@
             :label="item.label"
             :value="item.value"
         >
-          <span>{{ item.label }}</span>
-          <span>{{ item.value }}</span>
         </el-option>
       </el-select>
       <el-button type="primary" @click="selectTopic">Send Topic</el-button>
       <el-button type="primary" @click="selectArea">Send Area</el-button>
-    </label>
+    </div>
     <div ref="cv" class="canvas-container">
       <canvas width="800" height="600">
       </canvas>
@@ -110,6 +108,10 @@ export default {
   },
   methods: {
     selectTopic() {
+      if (!this.topic) {
+        this.$message.error('请选择区域');
+        return;
+      }
       this.axios.get(server().http.areaHandle, {params: {flag: 'get_image', topic: this.topic}})
           .then(res => {
             const data = res.data;
@@ -128,6 +130,10 @@ export default {
           })
     },
     selectArea() {
+      if (this.arr.length === 0) {
+        this.$message.error('请选取区域');
+        return;
+      }
       this.axios.post(server().http.areaHandle,
           {flag: 'send_area', topic: this.topic, area: this.arr, size: [800, 600]})
           .then(res => {
@@ -176,7 +182,7 @@ export default {
     }
   }
 
-  label {
+  .manager-wrapper {
     margin-bottom: 1rem;
 
     .el-select {

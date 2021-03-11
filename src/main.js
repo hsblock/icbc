@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { Select, Option, Button } from "element-ui";
+import { Select, Option, Button, Input } from "element-ui";
 
 import Message from "@/components/common/Message";
 import Notification from "@/components/common/Notification";
@@ -25,6 +25,7 @@ Vue.component(Dialog.name, Dialog);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(Button.name, Button);
+Vue.component(Input.name, Input);
 
 new Vue({
   router,
