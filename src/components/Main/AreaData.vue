@@ -43,7 +43,7 @@ export default {
         status: '...'
       },
       wsNumQueue: null,
-      wsMostStaningTime: null,
+      wsmostStandingTime: null,
       wsAbnormal: null,
       wsLeftover: null,
       wsManagerStatus: null,
@@ -61,13 +61,13 @@ export default {
       this.openAbnormal();
       this.openLeftover();
       this.openManagerStatus();
-      this.openMostStaningTime();
+      this.openmostStandingTime();
       this.openNumQueue();
       this.openMostContactTime();
     },
     closeWebSocket() {
       this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-      this.wsMostStaningTime && this.wsMostStaningTime.close(1000, 'most staning time destroy');
+      this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most staning time destroy');
       this.wsAbnormal && this.wsAbnormal.close(1000, 'abnormal destroy');
       this.wsLeftover && this.wsLeftover.close(1000, 'leftover destroy');
       this.wsManagerStatus && this.wsManagerStatus.close(1000, 'manager status destroy');
@@ -84,16 +84,16 @@ export default {
       this.wsNumQueue.onerror = (error) => console.log(error)
       this.wsNumQueue.onclose = () => console.log("num queue close")
     },
-    openMostStaningTime() {
-      this.wsMostStaningTime = new WebSocket(server().ws.mostStaningTime);
-      this.wsMostStaningTime.onopen = () => console.log("most staning time open")
-      this.wsMostStaningTime.onmessage = (e) => {
+    openmostStandingTime() {
+      this.wsmostStandingTime = new WebSocket(server().ws.mostStandingTime);
+      this.wsmostStandingTime.onopen = () => console.log("most staning time open")
+      this.wsmostStandingTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.self.maxSTime = data['mostStaningTime'];
+        this.self.maxSTime = data['mostStandingTime'];
       }
-      this.wsMostStaningTime.onerror = (error) => console.log(error)
-      this.wsMostStaningTime.onclose = () => console.log("most staning time close")
+      this.wsmostStandingTime.onerror = (error) => console.log(error)
+      this.wsmostStandingTime.onclose = () => console.log("most staning time close")
     },
     openAbnormal() {
       this.wsAbnormal = new WebSocket(server().ws.abnormal);

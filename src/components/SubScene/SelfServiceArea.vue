@@ -151,7 +151,7 @@ export default {
         }
       },
       wsNumQueue: null,
-      wsMostStaningTime: null,
+      wsmostStandingTime: null,
       wsLatestDay: null,
       wsMostContactTime: null
     }
@@ -162,14 +162,14 @@ export default {
   },
   beforeDestroy() {
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-    this.wsMostStaningTime && this.wsMostStaningTime.close(1000, 'most staning time destroy');
+    this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most staning time destroy');
     this.wsLatestDay && this.wsLatestDay.close(1000, 'latest day destroy');
     this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
   },
   methods: {
     openWebSocket() {
       this.openNumQueue();
-      this.openMostStaningTime();
+      this.openmostStandingTime();
       this.openLatestDay();
       this.openMostContactTime();
     },
@@ -189,16 +189,16 @@ export default {
       this.wsNumQueue.onerror = (error) => console.log(error)
       this.wsNumQueue.onclose = () => console.log("num queue close")
     },
-    openMostStaningTime() {
-      this.wsMostStaningTime = new WebSocket(server().ws.mostStaningTime);
-      this.wsMostStaningTime.onopen = () => console.log("most staning time open")
-      this.wsMostStaningTime.onmessage = (e) => {
+    openmostStandingTime() {
+      this.wsmostStandingTime = new WebSocket(server().ws.mostStandingTime);
+      this.wsmostStandingTime.onopen = () => console.log("most staning time open")
+      this.wsmostStandingTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.stayTime = data['mostStaningTime'];
+        this.stayTime = data['mostStandingTime'];
       }
-      this.wsMostStaningTime.onerror = (error) => console.log(error)
-      this.wsMostStaningTime.onclose = () => console.log("most staning time close")
+      this.wsmostStandingTime.onerror = (error) => console.log(error)
+      this.wsmostStandingTime.onclose = () => console.log("most staning time close")
     },
     openMostContactTime() {
       this.wsMostContactTime = new WebSocket(server().ws.mostContactTime);

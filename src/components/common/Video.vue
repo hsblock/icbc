@@ -1,7 +1,6 @@
 <template>
   <div class="video-container">
     <div class="video-wrapper">
-<!--      <img ref="img" :src="placeholder" alt="" class="video">-->
       <video-player
           ref="video"
           :options="playerOptions"
@@ -35,35 +34,34 @@ export default {
       playerOptions: {
         autoplay: true,
         controls: true,
+        poster: icbc,
         sources: [
           {
             withCredentials: false,
             type: 'application/x-mpegURL',
-            src: 'http://211.67.21.65:8081/hls/test2.m3u8'
+            src: server().m3u8.face
           }
         ]
       },
-      placeholder: icbc,
       sources: [
-        {
-          name: '人脸检测',
-          value: 'http://211.67.21.65:8081/hls/test2.m3u8'
-        },
-        {
-          name: '遗留物品检测',
-          value: 'https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8'
-        }
+        { name: '进店', value: server().m3u8.face },
+        { name: '排队', value: server().m3u8.queue },
+        { name: '危险物品', value: server().m3u8.dangerous },
+        { name: '遗留物品', value: server().m3u8.leftover },
+        { name: '停留时间', value: server().m3u8.standing },
+        { name: '离岗检测', value: server().m3u8.offline }
       ],
       ws: null
     }
   },
   mounted() {
     this.openWebSocket();
-    console.log(this.$refs.video.$refs.videoPlayer)
-    // this.$refs.img.addEventListener('click', this.handleClick);
+    console.log(this.$refs.video.$refs.videoPlayer);
+    this.$refs.video.$refs.videoPlayer.addEventListener('click', this.handleClick);
   },
   beforeDestroy() {
-    this.ws && this.ws.close(1000, 'video destroy')
+    this.ws && this.ws.close(1000, 'video destroy');
+    this.$refs.video.$refs.videoPlayer.removeEventListener('click', this.handleClick);
   },
   methods: {
     openWebSocket() {
@@ -76,12 +74,19 @@ export default {
       this.ws.onclose = () => console.log("video close");
     },
     handleClick(e) {
+      console.log(e)
+      const video = e.target;
+      // 点击点的坐标
       const [x, y] = [e.clientX, e.clientY];
-      const {top, left} = this.$refs.img.getBoundingClientRect();
-      const imgWidth = this.$refs.img.clientWidth;
-      const imgHeight = this.$refs.img.clientHeight;
-      const [perX, perY] = [(x - left) / imgWidth, (y - top) / imgHeight];
-      this.axios.post(server().http.selectPerson, {x: perX, y: perY})
+      const {top, left} = video.getBoundingClientRect();
+      // 视频理论大小
+      let { videoHeight, videoWidth, clientHeight, clientWidth } = video;
+      console.log(videoHeight, videoWidth, clientHeight, clientWidth);
+      videoWidth = (videoWidth / videoHeight) * clientHeight;
+      const offset = (clientWidth - videoWidth) / 2;
+      const px = (x - left - offset) / videoWidth;
+      const py = (y - top) / videoHeight;
+      this.axios.post(server().http.selectPerson, {x: px, y: py})
           .then(e => console.log(e))
           .catch(error => console.error(error.message))
     },
@@ -116,10 +121,15 @@ export default {
       width: 100%;
       height: 100%;
       position: relative;
+      overflow: hidden;
 
       /deep/ .video-js {
         width: 100%;
         height: 100%;
+
+        video {
+          z-index: 100;
+        }
       }
 
       .switch-button {
@@ -133,6 +143,7 @@ export default {
         justify-content: center;
         opacity: 0;
         transition: opacity .4s ease, transform .4s ease;
+        z-index: 1000;
 
         button {
           width: 100%;

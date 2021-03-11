@@ -2,43 +2,11 @@
 
 ### 使用方法
 
-可以选择下面两种方法使用：
-
-1. git 项目使用
-   1. git项目代码
-
-   ```bash
-   git clone https://github.com/hsblock/icbc.git
-   ```
-
-   2. 切换到 dist 分支
-
-   ```bash
-   cd icbc
-   git checkout dist
-   ```
-
-   3. 浏览器打开 index.html 即可调试（使用 Internet Explorer 会出现不兼容的情况）
-
-   4. 点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）
-
 2. 下载 [releases](https://github.com/hsblock/icbc/releases)
 
-   解压后浏览器打开 index.html 即可使用
-
-### 跨域问题
-
-1. 如未使用 nginx 代理，需要根据后端使用框架对后端进行不同的配置，使用 django 的可以百度 django 跨域。
-
-2. 使用 nginx 代理可以配置如下几个响应头，具体可以参考[nginx解决跨域问题](https://segmentfault.com/a/1190000019227927?utm_source=tag-newest)
-
-```bash
-add_header  'Content-Type' "text/plain;charset=utf-8"; 
-add_header  'Access-Control-Allow-Headers'  '*';
-add_header  'Access-Control-Allow-Origin'  '*';
-add_header  'Access-Control-Allow-Credentials' 'true';
-add_header  'Access-Control-Allow-Methods'  'GET, POST, OPTIONS';
-```
+   解压后浏览器打开 index.html 即可使用。
+   
+   点击右上角的齿轮按钮，即可配置本地 websocket 和 http 的 url 地址及端口号（按照默认形式即可，不需要添加 http 和 ws，点击确定后可以再次点击齿轮查看是否更新成功）。
 
 ### BUG 调试
 
@@ -56,7 +24,7 @@ BUG 调试主要有以下几个方面：
 | ---- | ---- | ---- | ---- |
 | warning | { 'message': message } | 统一对项目中的报警进行管理 | :heavy_check_mark: |
 | numQueue | { 'numberOfQueue': 12 } | 获取当前选定区域排队人数 | :heavy_check_mark: |
-| mostStaningTime | { 'mostStaningTime': 123 } | 获取当前区域最长停留时间 | :heavy_check_mark: |
+| mostStandingTime | { 'mostStandingTime': 123 } | 获取当前区域最长停留时间 | :heavy_check_mark: |
 | mostContactTime | { mostContactTime: 12 } | 获取最长接触时间 | :heavy_check_mark: |
 | offlineImage |  | 视频 | :heavy_check_mark: |
 | crossRegion | { 'numArea': 3, 'flow': [12, 123] } | 获取人员流动信息 | :x: |
@@ -73,23 +41,35 @@ BUG 调试主要有以下几个方面：
 
 **“xxx上限”接口在页面打开时会从后端获取对应初始数据**
 
-| 接口名称        | 数据格式                 | 接口描述             | 备注               |
-| --------------- | ------------------------ | -------------------- | ------------------ |
-| selectPerson    | { 'x': 0.13, 'y': 0.24 } | 人员追踪             | :heavy_check_mark: |
-| setEntrySize    | { 'entrySize': 13 }      | 设置客流上限         | :heavy_check_mark: |
-| setBankCapacity | { 'bankCapacity': 34 }   | 设置停留人数上限     | :question:         |
-| setWaitTime     | { 'waitTime': 12 }       | 设置停留时间上限     | :heavy_check_mark: |
-| setWaitNumber   | { 'waitNumber': 23 }     | 设置等待人数上限     | :heavy_check_mark: |
-| setLeaveTime    | { 'leaveTime': 12 }      | 设置离岗时间上限     | :heavy_check_mark: |
-| setContactTime  | { 'contactTime': 12 }    | 设置接触时间上限     | :heavy_check_mark: |
-| getEntrySize    | { 'entrySize': 13 }      | 获取客流上限         | :heavy_check_mark: |
-| getBankCapacity | { 'bankCapacity': 34 }   | 获取停留人数上限     | :question:         |
-| getWaitTime     | { 'waitTime': 12 }       | 获取停留时间上限     | :heavy_check_mark: |
-| getWaitNumber   | { 'waitNumber': 23 }     | 获取等待人数上限     | :heavy_check_mark: |
-| getLeaveTime    | { 'leaveTime': 12 }      | 获取离岗时间上限     | :heavy_check_mark: |
-| getContactTime  | { 'contactTime': 12 }    | 获取接触时间上限     | :heavy_check_mark: |
-| getLastWeekNum  |                          | 获取历史七天客流     | :heavy_check_mark: |
-| backgroundShot  |                          | 遗留物品检测背景拍摄 | :heavy_check_mark: |
+| 接口名称        | 数据格式                                                     | 接口描述                                                     | 备注               |
+| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------ |
+| selectPerson    | { 'x': 0.13, 'y': 0.24 }                                     | 人员追踪                                                     | :heavy_check_mark: |
+| setEntrySize    | { 'entrySize': 13 }                                          | 设置客流上限                                                 | :heavy_check_mark: |
+| setBankCapacity | { 'bankCapacity': 34 }                                       | 设置停留人数上限                                             | :question:         |
+| setWaitTime     | { 'waitTime': 12 }                                           | 设置停留时间上限                                             | :heavy_check_mark: |
+| setWaitNumber   | { 'waitNumber': 23 }                                         | 设置等待人数上限                                             | :heavy_check_mark: |
+| setLeaveTime    | { 'leaveTime': 12 }                                          | 设置离岗时间上限                                             | :heavy_check_mark: |
+| setContactTime  | { 'contactTime': 12 }                                        | 设置接触时间上限                                             | :heavy_check_mark: |
+| getEntrySize    | { 'entrySize': 13 }                                          | 获取客流上限                                                 | :heavy_check_mark: |
+| getBankCapacity | { 'bankCapacity': 34 }                                       | 获取停留人数上限                                             | :question:         |
+| getWaitTime     | { 'waitTime': 12 }                                           | 获取停留时间上限                                             | :heavy_check_mark: |
+| getWaitNumber   | { 'waitNumber': 23 }                                         | 获取等待人数上限                                             | :heavy_check_mark: |
+| getLeaveTime    | { 'leaveTime': 12 }                                          | 获取离岗时间上限                                             | :heavy_check_mark: |
+| getContactTime  | { 'contactTime': 12 }                                        | 获取接触时间上限                                             | :heavy_check_mark: |
+| getLastWeekNum  |                                                              | 获取历史七天客流                                             | :heavy_check_mark: |
+| backgroundShot  |                                                              | 遗留物品检测背景拍摄                                         | :heavy_check_mark: |
+| areaHandle      | 1. get 请求<br />{ 'flag': 'get_image', 'topic': '...' }<br />2. post 请求<br />{ 'flag': 'send_area', 'topic': '...', 'area': [[10, 20], [20, 30]], 'size': [800, 600] } | 区域划分<br />1. get 请求选取主题<br />2. post 请求选定区域，area 为区域顶点坐标，size 为图片大小 |                    |
+
+3. m3u8 视频推流接口
+
+| 接口名称  | 接口描述               | 备注 |
+| --------- | ---------------------- | ---- |
+| face      | 进店视频流接口         |      |
+| queue     | 排队视频流接口         |      |
+| dangerous | 危险物品检测视频流接口 |      |
+| leftover  | 遗留物品检测视频流接口 |      |
+| standing  | 停留时间视频流接口     |      |
+| offline   | 离岗检测视频流接口     |      |
 
 **注意：前端页面显示“xxx已被设置为xxx”并不代表设置成功，只代表 http 请求成功，需检查后端接口或数据库信息！**
 

@@ -21,7 +21,7 @@ function addPrefix(obj, prefix) {
 const ws = {
   warning: 'warning', // 统一对项目中的报警进行管理 { 'message': message }
   numQueue: 'numQueue', // 获取当前选定区域排队人数 { 'numberOfQueue': 12 }
-  mostStaningTime: 'mostStaningTime', // 获取当前区域最长停留时间 { 'mostStaningTime': 123 }
+  mostStandingTime: 'mostStandingTime', // 获取当前区域最长停留时间 { 'mostStandingTime': 123 }
   mostContactTime: 'mostContactTime', // 获取最长接触时间 { mostContactTime: 12 }
   offlineImage: 'offlineImage', // video
   crossRegion: 'crossRegion', // 获取人员流动信息 { 'numArea': 3, 'flow': [12, 123] }
@@ -54,9 +54,19 @@ const http = {
   areaHandle: 'areaHandle', // 区域划分
 }
 
+const m3u8 = {
+  'face': 'hls/face.m3u8',
+  'queue': 'hls/queue.m3u8',
+  'dangerous': 'hls/dangerous.m3u8',
+  'leftover': 'hls/leftover.m3u8',
+  'standing': 'hls/standing.m3u8',
+  'offline': 'hls/offline.m3u8',
+}
+
 export const server = () => {
   return {
     ws: addPrefix(ws, websocketServer()),
-    http: addPrefix(http, httpServer())
+    http: addPrefix(http, httpServer()),
+    m3u8: addPrefix(m3u8, httpServer())
   }
 }
