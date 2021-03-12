@@ -113,7 +113,10 @@ export default {
       this.axios.get(server().http.setLeaveTime, {params: {leaveTime: this.staff.leaveTimeLimit}})
           .then((res) => {
             console.log(res);
-            this.$message.success('离岗时间上限成功被设置为' + this.staff.leaveTimeLimit);
+            this.getLeaveTime().then(() => {
+              this.$message.success('离岗时间上限成功被设置为' + this.staff.leaveTimeLimit);
+            })
+            this.staff.leaveTimeVisible = false;
           })
           .catch((e) => {
             console.error(e.message);
@@ -121,7 +124,7 @@ export default {
           })
     },
     getLeaveTime() {
-      this.axios.get(server().http.getLeaveTime)
+      return this.axios.get(server().http.getLeaveTime)
           .then(res => {
             const data = res.data;
             console.log(data);

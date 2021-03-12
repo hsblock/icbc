@@ -45,8 +45,9 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogVisible = false;
-            this.getEntrySize();
-            this.$message.success('客流上限已经成功被设置为' + this.flowLimit);
+            this.getEntrySize().then(() => {
+              this.$message.success('客流上限已经成功被设置为' + this.flowLimit);
+            })
           })
           .catch(e => {
             console.error(e.message);
@@ -54,7 +55,7 @@ export default {
           })
     },
     getEntrySize() {
-      this.axios.get(server().http.getEntrySize)
+      return this.axios.get(server().http.getEntrySize)
           .then(res => {
             const data = res.data;
             this.flowLimit = data['entrySize']

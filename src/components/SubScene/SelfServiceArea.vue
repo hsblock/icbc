@@ -162,20 +162,20 @@ export default {
   },
   beforeDestroy() {
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-    this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most staning time destroy');
+    this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most standing time destroy');
     this.wsLatestDay && this.wsLatestDay.close(1000, 'latest day destroy');
     this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
   },
   methods: {
     openWebSocket() {
       this.openNumQueue();
-      this.openmostStandingTime();
+      this.openMostStandingTime();
       this.openLatestDay();
       this.openMostContactTime();
     },
     getInitialData() {
       this.getContactTime();
-      this.getWaitNumber();
+      console.log(this.getWaitNumber());
       this.getWaitTime();
     },
     openNumQueue() {
@@ -189,16 +189,16 @@ export default {
       this.wsNumQueue.onerror = (error) => console.log(error)
       this.wsNumQueue.onclose = () => console.log("num queue close")
     },
-    openmostStandingTime() {
+    openMostStandingTime() {
       this.wsmostStandingTime = new WebSocket(server().ws.mostStandingTime);
-      this.wsmostStandingTime.onopen = () => console.log("most staning time open")
+      this.wsmostStandingTime.onopen = () => console.log("most standing time open")
       this.wsmostStandingTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
         this.stayTime = data['mostStandingTime'];
       }
       this.wsmostStandingTime.onerror = (error) => console.log(error)
-      this.wsmostStandingTime.onclose = () => console.log("most staning time close")
+      this.wsmostStandingTime.onclose = () => console.log("most standing time close")
     },
     openMostContactTime() {
       this.wsMostContactTime = new WebSocket(server().ws.mostContactTime);
@@ -226,7 +226,10 @@ export default {
       this.axios.get(server().http.setWaitNumber, {params: {waitNumber: this.numLimit}})
           .then(res => {
             console.log(res);
-            this.$message({type: 'success', message: `最大排队人数成功被设置为${this.numLimit}`})
+            this.getWaitNumber().then(() => {
+              this.$message({type: 'success', message: `最大排队人数成功被设置为${this.numLimit}`});
+            })
+            this.numVisible = false;
           })
           .catch(e => {
             console.error(e.message);
@@ -237,7 +240,10 @@ export default {
       this.axios.get(server().http.setWaitTime, {params: {waitTime: this.stayTimeLimit}})
           .then(res => {
             console.log(res);
-            this.$message({type: 'success', message: `停留时间上限成功被设置为${this.numLimit}`})
+            this.getWaitTime().then(() => {
+              this.$message({type: 'success', message: `停留时间上限成功被设置为${this.stayTimeLimit}`})
+            })
+            this.stayVisible = false;
           })
           .catch(e => {
             console.error(e.message);
@@ -247,8 +253,11 @@ export default {
     submitContactTime() {
       this.axios.get(server().http.setContactTime, {params: {contactTime: this.contactTimeLimit}})
           .then(res => {
-            console.log(res)
-            this.$message({type: 'success', message: `接触时间上限成功被设置为${this.numLimit}`})
+            console.log(res);
+            this.getContactTime().then(() => {
+              this.$message({type: 'success', message: `接触时间上限成功被设置为${this.contactTimeLimit}`})
+            })
+            this.contactVisible = false;
           })
           .catch(e => {
             console.error(e.message)
@@ -256,7 +265,7 @@ export default {
           })
     },
     getWaitNumber() {
-      this.axios.get(server().http.getWaitNumber)
+      return this.axios.get(server().http.getWaitNumber)
           .then(res => {
             const data = res.data;
             console.log(data)
@@ -267,7 +276,7 @@ export default {
           })
     },
     getWaitTime() {
-      this.axios.get(server().http.getWaitTime)
+      return this.axios.get(server().http.getWaitTime)
           .then(res => {
             const data = res.data;
             console.log(data);
@@ -278,7 +287,7 @@ export default {
           })
     },
     getContactTime() {
-      this.axios.get(server().http.getContactTime)
+      return this.axios.get(server().http.getContactTime)
           .then(res => {
             const data = res.data;
             console.log(data);
