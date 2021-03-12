@@ -34,12 +34,12 @@ export default {
       arr: [],
       bgImg: null,
       topics: [
-        { label: 'face_area', value: '进店' },
-        { label: 'queue_area', value: '排队' },
-        { label: 'dangerous_data', value: '危险物品' },
-        { label: 'leftover_area', value: '遗留物品' },
-        { label: 'standing_area', value: '停留时间' },
-        { label: 'offline_area', value: '离岗检测' }
+        { label: '进店', value: 'face_area' },
+        { label: '排队', value: 'queue_area' },
+        { label: '危险物品', value: 'dangerous_data' },
+        { label: '遗留物品', value: 'leftover_area' },
+        { label: '停留时间', value: 'standing_area' },
+        { label: '离岗检测', value: 'offline_area' }
       ]
     }
   },
@@ -62,8 +62,9 @@ export default {
       ctx1.drawImage(this.bgImg, 0, 0, 800, 600)
     }
     document.oncontextmenu = () => false;
-    const rects = cv.getBoundingClientRect();
     cv.onmousedown = (e) => {
+      const rects = cv.getBoundingClientRect();
+      console.log(rects)
       console.log(e)
       // 左键点击绘图
       if (e.buttons === 1) {
