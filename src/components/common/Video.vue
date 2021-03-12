@@ -56,7 +56,9 @@ export default {
       ws: null
     }
   },
-  created() {
+  mounted() {
+    this.openWebSocket();
+
     if (this.$route.name === 'SubScene') {
       if (this.$route.params.source !== undefined) {
         // 换源切换到副界面
@@ -66,10 +68,8 @@ export default {
         this.switchSource(this.sources[1].value);
       }
     }
-  },
-  mounted() {
-    this.openWebSocket();
-    console.log(this.$refs.video.$refs.videoPlayer);
+
+    this.$refs.video.player.player_.handleTechClick_ = function() {};
     this.$refs.video.$refs.videoPlayer.addEventListener('click', this.handleClick);
   },
   beforeDestroy() {
@@ -87,21 +87,27 @@ export default {
       this.ws.onclose = () => console.log("video close");
     },
     handleClick(e) {
-      console.log(e)
+      e.preventDefault();
+      e.stopPropagation();
       const video = e.target;
       // 点击点的坐标
       const [x, y] = [e.clientX, e.clientY];
       const {top, left} = video.getBoundingClientRect();
       // 视频理论大小
       let { videoHeight, videoWidth, clientHeight, clientWidth } = video;
-      console.log(videoHeight, videoWidth, clientHeight, clientWidth);
       videoWidth = (videoWidth / videoHeight) * clientHeight;
       const offset = (clientWidth - videoWidth) / 2;
       const px = (x - left - offset) / videoWidth;
       const py = (y - top) / videoHeight;
       this.axios.post(server().http.selectPerson, {x: px, y: py})
-          .then(e => console.log(e))
-          .catch(error => console.error(error.message))
+          .then(e => {
+            console.log(e);
+            this.$message.success('选取人员成功')
+          })
+          .catch(error => {
+            console.error(error.message)
+            this.$message.error('选取失败')
+          })
     },
     switchSource(v) {
       console.log(v);
@@ -148,10 +154,6 @@ export default {
       /deep/ .video-js {
         width: 100%;
         height: 100%;
-
-        video {
-          z-index: 100;
-        }
       }
 
       .switch-button {
