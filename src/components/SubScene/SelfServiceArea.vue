@@ -282,7 +282,7 @@ export default {
           .then(res => {
             const data = res.data;
             console.log(data);
-            this.contactTimeLimit = res['contactTime'];
+            this.contactTimeLimit = data['contactTime'];
           })
           .catch(e => {
             console.error(e.message);
