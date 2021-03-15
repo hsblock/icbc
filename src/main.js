@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { Select, Option, Button, Input } from "element-ui";
+import { Select, Option, Button, Upload, Tabs, TabPane, Dialog } from "element-ui";
 
 import Message from "@/components/common/Message";
 import Notification from "@/components/common/Notification";
-import Dialog from "@/components/common/Dialog"
+import BshzDialog from "@/components/common/Dialog"
 
 import App from './App.vue'
 import router from './router'
@@ -20,12 +20,15 @@ Vue.use(VueAxios, axios);
 
 Vue.use(Message);
 Vue.use(Notification);
-Vue.component(Dialog.name, Dialog);
+Vue.component(BshzDialog.name, BshzDialog);
 
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(Button.name, Button);
-Vue.component(Input.name, Input);
+Vue.component(Upload.name, Upload);
+Vue.component(Tabs.name, Tabs);
+Vue.component(TabPane.name ,TabPane);
+Vue.component(Dialog.name, Dialog);
 
 new Vue({
   router,

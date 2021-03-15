@@ -52,6 +52,7 @@ const http = {
   getLastWeekNum: 'getLastWeekNum', // 获取历史七天客流 { 'lastWeekNum': [3, 3, 7, 9, 2, 3, 6] }
   backgroundShot: 'backgroundShot', // 遗留物品检测背景拍摄
   areaHandle: 'areaHandle', // 区域划分
+  selectPattern: 'selectPattern', // 模式选择
 }
 
 const m3u8 = {

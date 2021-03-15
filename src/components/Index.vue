@@ -21,7 +21,7 @@
       <router-view class="content-container" />
     </transition>
     <div class="manage">
-      <RouterLink to="/manage">
+      <RouterLink to="/manage/area">
         <svg class="iconfont" aria-hidden="true">
           <use xlink:href="#icon-manage"></use>
         </svg>

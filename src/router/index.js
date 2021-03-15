@@ -21,9 +21,21 @@ export default new VueRouter({
           component: () => import('../components/SubScene')
         },
         {
-          path: '/manage',
+          path: '/manage/area',
           name: 'Manage',
-          component: () => import('../components/Manage')
+          component: () => import('../components/Manage'),
+          children: [
+            {
+              path: '/manage/area',
+              name: 'AreaSelect',
+              component: () => import('../components/Manage/AreaSelect')
+            },
+            {
+              path: '/manage/person',
+              name: 'PersonSelect',
+              component: () => import('../components/Manage/PersonSelect')
+            }
+          ]
         }
       ]
     }
