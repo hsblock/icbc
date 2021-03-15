@@ -41,22 +41,24 @@ BUG 调试主要有以下几个方面：
 
 post 请求数据格式均改为了 `application/json`，django 获取数据可以使用 `data = json.loads(request.body)`
 
-| 接口名称       | 数据格式                                                     | 接口描述                                                     | 备注               |
-| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------ |
-| setEntrySize   | { 'entrySize': 13 }                                          | 设置客流上限                                                 | get |
-| setWaitTime    | { 'waitTime': 12 }                                           | 设置停留时间上限                                             | get |
-| setWaitNumber  | { 'waitNumber': 23 }                                         | 设置等待人数上限                                             | get |
-| setLeaveTime   | { 'leaveTime': 12 }                                          | 设置离岗时间上限                                             | get |
-| setContactTime | { 'contactTime': 12 }                                        | 设置接触时间上限                                             | get |
-| getEntrySize   | { 'entrySize': 13 }                                          | 获取客流上限                                                 | get |
-| getWaitTime    | { 'waitTime': 12 }                                           | 获取停留时间上限                                             | get |
-| getWaitNumber  | { 'waitNumber': 23 }                                         | 获取等待人数上限                                             | get |
-| getLeaveTime   | { 'leaveTime': 12 }                                          | 获取离岗时间上限                                             | get |
-| getContactTime | { 'contactTime': 12 }                                        | 获取接触时间上限                                             | get |
-| getLastWeekNum | { 'lastWeekNum' : [1, 2] } | 获取历史七天客流                                             | get |
-| backgroundShot |                                                              | 遗留物品检测背景拍摄                                         | get |
-| areaHandle     | 1. get 请求<br />{ 'flag': 'get_image', 'topic': '...' }<br />2. post 请求<br />{ 'flag': 'send_area', 'topic': '...', 'area': [[10, 20], [20, 30]], 'size': [800, 600] } | 区域划分<br />1. get 请求选取主题<br />2. post 请求选定区域，area 为区域顶点坐标，size 为图片大小 | post |
-| selectPerson | { 'x': 0.13, 'y': 0.24 } | 人员追踪 | post |
+| 接口名称       | 请求数据                                               | 响应数据                                                 | 接口描述                                                     | 备注               |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------ | -------------- |
+| setEntrySize   | { 'entrySize': 13 }                                          |                                           | 设置客流上限                                                 | get |
+| setWaitTime    | { 'waitTime': 12 }                                           |                                            | 设置停留时间上限                                             | get |
+| setWaitNumber  | { 'waitNumber': 23 }                                         |                                          | 设置等待人数上限                                             | get |
+| setLeaveTime   | { 'leaveTime': 12 }                                          |                                           | 设置离岗时间上限                                             | get |
+| setContactTime | { 'contactTime': 12 }                                        |                                         | 设置接触时间上限                                             | get |
+| getEntrySize   |                                           | { 'entrySize': 13 }                       | 获取客流上限                                                 | get |
+| getWaitTime    |                                                              | { 'waitTime': 12 }                         | 获取停留时间上限                                             | get |
+| getWaitNumber  |                                          | { 'waitNumber': 23 }                     | 获取等待人数上限                                             | get |
+| getLeaveTime   |                                                              | { 'leaveTime': 12 }                       | 获取离岗时间上限                                             | get |
+| getContactTime |                                                              | { 'contactTime': 12 }                   | 获取接触时间上限                                             | get |
+| getLastWeekNum |                                                              | { 'lastWeekNum' : [1, 2] } | 获取历史七天客流                                             | get |
+| backgroundShot |                                                              |                                                              | 遗留物品检测背景拍摄                                         | get |
+| areaHandle     | 1. get 请求<br />{ 'flag': 'get_image', 'topic': '...' }<br />2. post 请求<br />{ 'flag': 'send_area', 'topic': '...', 'area': [[10, 20], [20, 30]], 'size': [800, 600] } |  | 区域划分<br />1. get 请求选取主题<br />2. post 请求选定区域，area 为区域顶点坐标，size 为图片大小 | post |
+| selectPerson | { 'x': 0.13, 'y': 0.24 } |  | 人员追踪 | post |
+| selectPattern | { 'flag': 'upload_pattern', 'topic': 'manager', 'img_id': '-1', 'img': base64, 'timestamp': 1 } | { 'img_id': 1, 'img': base64, 'timestamp': 1, 'topic': 'manager' } | 选择模板图片 | post |
+| selectPattern | { 'flag': 'get_candidates', 'topic': 'manager' } |  | 获取模板图片 | get |
 
 3. m3u8 视频推流接口
 
