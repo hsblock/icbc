@@ -36,7 +36,7 @@ export default {
       topics: [
         {label: '进店', value: 'face_area'},
         {label: '排队', value: 'queue_area'},
-        {label: '危险物品', value: 'dangerous_data'},
+        {label: '危险物品', value: 'dangerous_area'},
         {label: '遗留物品', value: 'leftover_area'},
         {label: '停留时间', value: 'standing_area'},
         {label: '离岗检测', value: 'offline_area'}

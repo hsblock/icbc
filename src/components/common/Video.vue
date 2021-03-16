@@ -29,7 +29,7 @@ import 'video.js/dist/video-js.css'
 
 export default {
   name: "Video",
-  components: { VideoPlayer },
+  components: { VideoPlayer },d
   data() {
     return {
       playerOptions: {
