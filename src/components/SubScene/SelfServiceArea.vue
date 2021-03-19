@@ -29,7 +29,7 @@
         <div class="row">
           <div>
             <span>最长停留时间</span>
-            <span>{{ stayTime }}</span>
+            <span>{{ stayTime }} 分钟</span>
           </div>
           <div>
             <span>停留时间上限</span>
@@ -52,7 +52,7 @@
         <div class="row">
           <div>
             <span>最长接触时间</span>
-            <span>{{ contactTime }}</span>
+            <span>{{ contactTime }} 分钟</span>
           </div>
           <div>
             <span>接触时间上限</span>
@@ -93,13 +93,13 @@ export default {
   components: {LineChart},
   data() {
     return {
-      num: 10,
+      num: 0,
       numLimit: 0,
       numVisible: false,
-      stayTime: 5,
+      stayTime: 900,
       stayTimeLimit: 0,
       stayVisible: false,
-      contactTime: '无',
+      contactTime: 0,
       contactTimeLimit: 0,
       contactVisible: false,
       chartData: {
@@ -175,7 +175,7 @@ export default {
     },
     getInitialData() {
       this.getContactTime();
-      console.log(this.getWaitNumber());
+      this.getWaitNumber();
       this.getWaitTime();
     },
     openNumQueue() {
@@ -326,7 +326,6 @@ export default {
       display: flex;
       flex-direction: column;
       width: 50%;
-      margin: 1rem 0;
     }
 
     .row {
@@ -347,10 +346,11 @@ export default {
 
           &:last-child {
             background: #4BC0C0;
-            width: 40px;
-            height: 20px;
-            padding: 5px 8px;
-            margin: 4px 0;
+            width: 4rem;
+            height: 28px;
+            line-height: 28px;
+            padding: 4px 6px;
+            margin: 0.375rem 0;
           }
         }
 
@@ -359,14 +359,14 @@ export default {
           > span:nth-child(2) {
             background: #fff;
             border-radius: 2px;
-            border: 1px solid #dcdfe6;
             color: #606266;
             cursor: pointer;
             transition: 0.1s;
-            width: 40px;
-            height: 20px;
-            padding: 5px 8px;
-            margin: 4px 0;
+            width: 4rem;
+            height: 1.75rem;
+            line-height: 1.75rem;
+            padding: 4px 6px;
+            margin: 0.375rem 0;
 
             &:hover {
               color: #409eff;

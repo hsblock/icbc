@@ -126,7 +126,6 @@ export default {
     },
     handleChange() {
       let fileList = this.$refs.upload.uploadFiles;
-      console.log(fileList)
       if (fileList.length > 0) {
         let file = fileList[0];
         if (file.size > 204800) {

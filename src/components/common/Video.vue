@@ -11,6 +11,7 @@
           {{ item.name }}
         </el-button>
       </div>
+      <div v-if="loading" class="loading"></div>
       <img ref="img" :src="placeholder" alt="" class="video">
     </div>
   </div>
@@ -24,7 +25,7 @@ export default {
   name: "Video",
   data() {
     return {
-      activeSource: server().video.flowFace,
+      activeSource: null,
       sources: [
         { name: '进店', value: server().video.flowFace },
         { name: '排队', value: server().video.flowStanding },
@@ -33,13 +34,14 @@ export default {
         { name: '离岗检测', value: server().video.flowOffline }
       ],
       placeholder: icbc,
-      ws: null
+      ws: null,
+      loading: true
     }
   },
   mounted() {
-    this.openWebSocket(this.sources[0].value);
-
-    if (this.$route.name === 'SubScene') {
+    if (this.$route.name === 'Main') {
+      this.switchSource(this.sources[0].value);
+    } else if (this.$route.name === 'SubScene') {
       if (this.$route.params.source !== undefined) {
         // 换源切换到副界面
         this.switchSource(this.$route.params.source);
@@ -48,7 +50,6 @@ export default {
         this.switchSource(this.sources[1].value);
       }
     }
-
     this.$refs.img.addEventListener('click', this.handleClick);
   },
   beforeDestroy() {
@@ -57,12 +58,18 @@ export default {
   },
   methods: {
     openWebSocket(src) {
+      console.log(src)
       this.ws = new WebSocket(src);
-      this.ws.onopen = () => console.log("video open");
-      this.ws.onmessage = (e) => {
-        this.$refs.img.setAttribute("src", "data:image/png;base64," + e.data);
+      this.ws.onopen = () => {
+        this.loading = false;
+        console.log("video open");
       }
-      this.ws.onerror = (e) => console.log(e);
+      this.ws.onmessage = (e) => {
+        this.placeholder = "data:image/png;base64," + e.data;
+      }
+      this.ws.onerror = (e) => {
+        console.log(e);
+      }
       this.ws.onclose = () => console.log("video close");
     },
     handleClick(e) {
@@ -77,17 +84,18 @@ export default {
           .catch(error => console.error(error.message))
     },
     switchSource(v) {
-      console.log(v);
-      console.log(this.$route)
       if (this.$route.name === 'Main' && v !== this.sources[0].value) {
         // 在主界面点击其他视频源，跳转到副界面
         this.$router.push({ name: 'SubScene', params: { source: v } });
       } else if (this.$route.name === 'SubScene' && v === this.sources[0].value) {
+        // 在副界面点击人脸检测视频源，跳转到主界面
         this.$router.push({ name: 'Main' });
       } else {
         this.ws && this.ws.close(1000, `${this.activeSource} close`);
-        this.openWebSocket(v)
         this.activeSource = v;
+        this.loading = true;
+        this.placeholder = icbc;
+        this.openWebSocket(v);
       }
     }
   }

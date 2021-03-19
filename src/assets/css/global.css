@@ -13,3 +13,61 @@ h1, h2 {
     fill: currentColor;
     overflow: hidden;
 }
+
+.loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+}
+.loading:before {
+    border-radius: 100%;
+    margin: 2px;
+    border:3px solid #20a0ff;
+    border-bottom-color:transparent;
+    height:36px;
+    width:36px;
+    -webkit-animation:loading-rotate .75s linear 0s infinite;
+    animation:loading-rotate .75s linear 0s infinite;
+}
+.loading:after,
+.loading:before {
+    content:"";
+    display:inline-block;
+    vertical-align:middle
+}
+.loading:after {
+    height: 100%;
+    width:0;
+}
+@-webkit-keyframes loading-rotate {
+    0% {
+        -webkit-transform:rotate(0) scale(1);
+        transform:rotate(0) scale(1)
+    }
+    50% {
+        -webkit-transform:rotate(180deg) scale(.6);
+        transform:rotate(180deg) scale(.6)
+    }
+    to {
+        -webkit-transform:rotate(1turn) scale(1);
+        transform:rotate(1turn) scale(1)
+    }
+}
+@keyframes loading-rotate {
+    0% {
+        -webkit-transform:rotate(0) scale(1);
+        transform:rotate(0) scale(1);
+    }
+    50% {
+        -webkit-transform:rotate(180deg) scale(.6);
+        transform:rotate(180deg) scale(.6)
+    }
+    to {
+        -webkit-transform:rotate(1turn) scale(1);
+        transform:rotate(1turn) scale(1)
+    }
+}

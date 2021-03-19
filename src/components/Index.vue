@@ -70,7 +70,6 @@ export default {
               message: '请前往<a href="https://github.com/hsblock/icbc/releases" target="_blank">releases</a>下载最新版本使用！'
             })
           } else if (vc === 1) {
-            console.log(window.localStorage.getItem('version_warning'))
             if (window.localStorage.getItem('version_warning') !== newVersion) {
               this.$notify({
                 title: '版本过旧',

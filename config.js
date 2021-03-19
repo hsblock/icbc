@@ -55,19 +55,18 @@ const http = {
   selectPattern: 'selectPattern', // 模式选择
 }
 
-const m3u8 = {
-  'face': 'hls/face.m3u8',
-  'queue': 'hls/queue.m3u8',
-  'dangerous': 'hls/dangerous.m3u8',
-  'leftover': 'hls/leftover.m3u8',
-  'standing': 'hls/standing.m3u8',
-  'offline': 'hls/offline.m3u8',
+const video = {
+  flowFace: 'flowFace',
+  flowDangerous: 'flowDangerous',
+  flowLeftover: 'flowLeftover',
+  flowStanding: 'flowStanding',
+  flowOffline: 'flowOffline'
 }
 
 export const server = () => {
   return {
     ws: addPrefix(ws, websocketServer()),
     http: addPrefix(http, httpServer()),
-    m3u8: addPrefix(m3u8, httpServer())
+    video: addPrefix(video, websocketServer())
   }
 }

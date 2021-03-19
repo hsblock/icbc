@@ -3,20 +3,26 @@
     <h2>区域统计数据</h2>
     <div class="area-data-wrapper">
       <div class="area-data-items">
-        <h4>自助区域</h4>
-        <span>当前排队人数: {{ self.num }}</span>
-        <span>最长停留时间: {{ self.maxSTime }}分钟</span>
-        <span>最长接触时间: {{ self.maxCTime }}分钟</span>
+        <div class="title">自助区域</div>
+        <div class="content">
+          <div>当前排队人数:  {{ self.num }}</div>
+          <div>最长停留时间: {{ self.maxSTime }} 分钟</div>
+          <div>最长接触时间: {{ self.maxCTime }} 分钟</div>
+        </div>
       </div>
       <div class="area-data-items">
-        <h4>安防区域</h4>
-        <span>可疑危险物品: {{ safe.danger }}</span>
-        <span>检测遗留物品: {{ safe.lost }}</span>
+        <div class="title">安防区域</div>
+        <div class="content">
+          <div>可疑危险物品:  {{ safe.danger }}</div>
+          <div>检测遗留物品:  {{ safe.lost }}</div>
+        </div>
       </div>
       <div class="area-data-items">
-        <h4>迎宾区域</h4>
-        <span>值班员工: {{ manager.staff }}</span>
-        <span>最近离岗时长: {{ manager.status }}</span>
+        <div class="title">迎宾区域</div>
+        <div class="content">
+          <div>值班员工:  {{ manager.staff }}</div>
+          <div>员工状态:  {{ manager.status }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -34,16 +40,16 @@ export default {
         lost: '手机'
       },
       self: {
-        num: 10,
-        maxSTime: 10,
-        maxCTime: '无'
+        num: 0,
+        maxSTime: 0,
+        maxCTime: 0
       },
       manager: {
         staff: '张三',
-        status: '...'
+        status: ''
       },
       wsNumQueue: null,
-      wsmostStandingTime: null,
+      wsMostStandingTime: null,
       wsAbnormal: null,
       wsLeftover: null,
       wsManagerStatus: null,
@@ -61,13 +67,13 @@ export default {
       this.openAbnormal();
       this.openLeftover();
       this.openManagerStatus();
-      this.openmostStandingTime();
+      this.openMostStandingTime();
       this.openNumQueue();
       this.openMostContactTime();
     },
     closeWebSocket() {
       this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-      this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most staning time destroy');
+      this.wsMostStandingTime && this.wsMostStandingTime.close(1000, 'most staning time destroy');
       this.wsAbnormal && this.wsAbnormal.close(1000, 'abnormal destroy');
       this.wsLeftover && this.wsLeftover.close(1000, 'leftover destroy');
       this.wsManagerStatus && this.wsManagerStatus.close(1000, 'manager status destroy');
@@ -84,16 +90,16 @@ export default {
       this.wsNumQueue.onerror = (error) => console.log(error)
       this.wsNumQueue.onclose = () => console.log("num queue close")
     },
-    openmostStandingTime() {
-      this.wsmostStandingTime = new WebSocket(server().ws.mostStandingTime);
-      this.wsmostStandingTime.onopen = () => console.log("most staning time open")
-      this.wsmostStandingTime.onmessage = (e) => {
+    openMostStandingTime() {
+      this.wsMostStandingTime = new WebSocket(server().ws.mostStandingTime);
+      this.wsMostStandingTime.onopen = () => console.log("most standing time open")
+      this.wsMostStandingTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
         this.self.maxSTime = data['mostStandingTime'];
       }
-      this.wsmostStandingTime.onerror = (error) => console.log(error)
-      this.wsmostStandingTime.onclose = () => console.log("most staning time close")
+      this.wsMostStandingTime.onerror = (error) => console.log(error)
+      this.wsMostStandingTime.onclose = () => console.log("most standing time close")
     },
     openAbnormal() {
       this.wsAbnormal = new WebSocket(server().ws.abnormal);
@@ -158,13 +164,25 @@ export default {
     .area-data-items {
       display: flex;
       flex-direction: column;
-      background: #eeeeee;
+      background: #ffffff;
       color: #000000;
-      padding: 0.875rem;
       border-radius: 0.25rem;
 
-      h4 {
-        margin: 0 0 0.5rem;
+      .title {
+        padding: 0.875rem;
+        border-bottom: 1px solid #dadce0;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      .content {
+        padding: 1.125rem;
+        font-size: 1rem;
+        width: 10rem;
+
+        div {
+          margin-bottom: 0.5rem;
+        }
       }
     }
   }

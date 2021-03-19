@@ -4,8 +4,6 @@ export const versionCompare = (v1, v2) => {
   const v1Match = regex.exec(v1)[1];
   regex.lastIndex = 0;
   const v2Match = regex.exec(v2)[1];
-  console.log("v1: ", v1Match);
-  console.log("v2: ", v2Match);
   const v1Arr = v1Match.split('.');
   const v2Arr = v2Match.split('.');
   for (let i = 0; i < 3; i++) {

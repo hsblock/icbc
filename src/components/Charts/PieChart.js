@@ -10,7 +10,6 @@ export default {
   watch: {
     chartData: {
       handler() {
-        console.log('change')
         this.renderChart(_.cloneDeep(this.chartData), this.options);
       },
       deep: true

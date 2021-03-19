@@ -66,8 +66,6 @@ export default {
     document.oncontextmenu = () => false;
     cv.onmousedown = (e) => {
       const rects = cv.getBoundingClientRect();
-      console.log(rects)
-      console.log(e)
       // 左键点击绘图
       if (e.buttons === 1) {
         let [x, y] = [Math.round(e.clientX - rects.left), Math.round(e.clientY - rects.top)];
@@ -79,14 +77,12 @@ export default {
           this.arr.push([x, y]);
           ctx.lineTo(x, y);
           ctx.stroke();
-          console.log("1:", this.arr);
         } else {
           // 第一个点
           this.arr.push([x, y]);
           ctx.arc(x, y, 1, 0, 2 * Math.PI);
           ctx.stroke();
           ctx.moveTo(x, y);
-          console.log("0:", this.arr);
         }
       } else if (e.buttons === 2) {
         // 右键点击取消
@@ -152,7 +148,6 @@ export default {
     minDistance(pos1, pos2) {
       const dx = pos1[0] - pos2[0];
       const dy = pos1[1] - pos2[1];
-      console.log(dx * dx + dy * dy)
       return dx * dx + dy * dy < 1024;
     }
   }
