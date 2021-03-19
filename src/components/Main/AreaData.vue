@@ -20,7 +20,6 @@
       <div class="area-data-items">
         <div class="title">迎宾区域</div>
         <div class="content">
-          <div>值班员工:  {{ manager.staff }}</div>
           <div>员工状态:  {{ manager.status }}</div>
         </div>
       </div>
@@ -45,7 +44,6 @@ export default {
         maxCTime: 0
       },
       manager: {
-        staff: '张三',
         status: ''
       },
       wsNumQueue: null,
@@ -178,7 +176,7 @@ export default {
       .content {
         padding: 1.125rem;
         font-size: 1rem;
-        width: 10rem;
+        min-width: 8rem;
 
         div {
           margin-bottom: 0.5rem;

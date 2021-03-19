@@ -10,10 +10,6 @@
           <div class="staff">
             <div class="staff-info">
               <img :src="staff.img" alt="">
-              <div class="info">
-                <div>姓名: {{ staff.name }}</div>
-                <div>工号: {{ staff.age }}</div>
-              </div>
             </div>
             <div class="time">
               <span>状态:</span>
@@ -93,6 +89,7 @@ export default {
   mounted() {
     this.openWebSocket();
     this.getLeaveTime();
+    this.getStaff();
   },
   beforeDestroy() {
     this.ws && this.ws.close(1000, 'manager status destroy');
@@ -109,9 +106,19 @@ export default {
       this.ws.onclose = () => console.log('close');
       this.ws.onerror = (error) => console.log(error);
     },
+    getStaff() {
+      this.axios.get(server().http.getStaff, {params: {flag: 'get_pattern', topic: 'manager'}})
+          .then(res => {
+            const data = res.data;
+            this.staff.img = "data:image/png;base64," + data['img'];
+          })
+          .catch(e => {
+            console.error(e);
+          })
+    },
     submitLeaveTime() {
       this.axios.get(server().http.setLeaveTime, {params: {leaveTime: this.staff.leaveTimeLimit}})
-          .then((res) => {
+          .then(res => {
             console.log(res);
             this.getLeaveTime().then(() => {
               this.$message.success('离岗时间上限成功被设置为' + this.staff.leaveTimeLimit);
@@ -161,30 +168,22 @@ export default {
 }
 
 .staff-wrapper {
-  margin: 0.5rem;
+  .title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
 }
 
-.staff-wrapper .title {
-  margin: 0.5rem 0;
-}
-
+.staff-wrapper
 .staff-info {
   display: flex;
-  height: 50px;
+  height: 150px;
 }
 
 .staff-info img {
-  height: 50px;
   width: 50px;
-  border-radius: 50%;
-}
-
-.staff-info .info {
-  display: flex;
-  flex-direction: column;
-  height: 50px;
-  justify-content: space-around;
-  margin-left: 0.5rem;
+  height: 150px;
+  margin: auto;
 }
 
 .staff .time:nth-child(2) {
