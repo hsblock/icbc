@@ -11,43 +11,43 @@
 </template>
 
 <script>
-  import TodayFlow from "@/components/Main/PassFlowStat/TodayFlow";
-  import SevenDayFlow from "@/components/Main/PassFlowStat/SevenDayFlow";
+import TodayFlow from "@/components/Main/PassFlowStat/TodayFlow";
+import SevenDayFlow from "@/components/Main/PassFlowStat/SevenDayFlow";
 
-  export default {
-    name: "PassFlowStat",
-    components: {SevenDayFlow, TodayFlow},
-    methods: {
-      todayFlowChange(data) {
-        this.$emit('todayFlowChange', data);
-      }
+export default {
+  name: "PassFlowStat",
+  components: {SevenDayFlow, TodayFlow},
+  methods: {
+    todayFlowChange(data) {
+      this.$emit('todayFlowChange', data);
     }
   }
+}
 </script>
 
-<style scoped>
-  .pass-flow-stat-container {
-    height: 30%;
-    overflow: hidden;
-    margin: 0 0.5rem 0.5rem 0;
-    padding: 0.5rem;
-    background: #061123;
-    border-radius: 5px;
-  }
+<style lang="scss" scoped>
+.pass-flow-stat-container {
+  height: 30%;
+  overflow: hidden;
+  margin: 0 0.5rem 0.5rem 0;
+  padding: 0.5rem;
+  background: #061123;
+  border-radius: 5px;
+}
 
-  .pass-flow-stat-container .title {
-    margin: 0;
-    color: #ffffff;
-  }
+.pass-flow-stat-container .title {
+  margin: 0;
+  color: #ffffff;
+}
 
-  .pass-flow-stat-wrapper {
-    display: flex;
-    height: calc(100% - 32px);
-  }
+.pass-flow-stat-wrapper {
+  display: flex;
+  height: calc(100% - 32px);
+  justify-content: space-around;
 
-  .pass-flow-stat-wrapper > div {
+  > div {
     background: #ffffff;
-    margin: 0.5rem;
-    max-width: 300px;
+    max-width: 20vw;
   }
+}
 </style>

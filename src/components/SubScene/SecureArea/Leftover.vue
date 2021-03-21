@@ -1,5 +1,5 @@
 <template>
-  <div v-if="lost.length > 0" class="lost">
+  <div class="lost">
     <h4>遗留物品</h4>
     <transition-group
         name="leftovers"
@@ -9,28 +9,21 @@
         class="lost-wrapper"
     >
       <div v-for="item in lost" :key="item.key" class="lost-item">
-        <div>
-          <img :src="item.img" alt="">
-          <div>{{ item.name }}</div>
-        </div>
+        <img :src="item.img" alt="">
+        <div>{{ item.name }}</div>
       </div>
     </transition-group>
   </div>
 </template>
 
 <script>
-import google from "@/assets/img/g.png";
 import {server} from "../../../../config";
 
 export default {
   name: "Leftover",
   data() {
     return {
-      lost: [{
-        img: google,
-        name: '手机',
-        key: 0,
-      }],
+      lost: [],
       key: 0,
       wsLeftover: null
     }

@@ -20,7 +20,6 @@
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.2",
-    "vue-chartjs": "^3.5.1",
     "vue-router": "^3.4.9"
   },
   "devDependencies": {

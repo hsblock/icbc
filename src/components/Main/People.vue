@@ -30,9 +30,8 @@ export default {
   },
   data() {
     return {
-      currentStay: '无',
-      flowLimit: 0,
-      wsTodayFlow: null,
+      currentStay: -1,
+      flowLimit: '',
       dialogVisible: false
     }
   },
@@ -85,6 +84,9 @@ export default {
 
   .flow-limit {
     background: #fff;
+    height: 1.875rem;
+    line-height: 1.875rem;
+    width: 2.5rem;
     border-radius: 2px;
     border: 1px solid #dcdfe6;
     color: #606266;

@@ -17,18 +17,13 @@
 </template>
 
 <script>
-import google from "@/assets/img/g.png";
 import {server} from "../../../../config";
 
 export default {
   name: "Danger",
   data() {
     return {
-      danger: [{
-        img: google,
-        name: '斧头',
-        key: 0,
-      }],
+      danger: [],
       key: 0,
       wsAbnormal: null
     }

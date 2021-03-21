@@ -54,6 +54,8 @@ const http = {
   getStaff: 'getPattern', // 获取值班员工
   areaHandle: 'areaHandle', // 区域划分
   selectPattern: 'selectPattern', // 模式选择
+  getWaitArray: 'getWaitArray', // 获取排队人数数组
+  getOfflineArray: 'getOfflineArray', // 获取离岗时间数组
 }
 
 const video = {

@@ -50,8 +50,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 50%;
-  max-width: 70%;
+  width: 50%;
 }
 
 .main-container .right {

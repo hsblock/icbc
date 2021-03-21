@@ -35,13 +35,13 @@ export default {
   data() {
     return {
       safe: {
-        danger: '手枪',
-        lost: '手机'
+        danger: '',
+        lost: ''
       },
       self: {
-        num: 0,
-        maxSTime: 0,
-        maxCTime: 0
+        num: '',
+        maxSTime: '',
+        maxCTime: ''
       },
       manager: {
         status: ''

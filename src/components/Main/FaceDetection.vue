@@ -19,36 +19,18 @@
 
 <script>
 import { server } from "../../../config";
-import google from '@/assets/img/g.png'
 
 export default {
   name: "FaceDetection",
   data() {
     return {
-      infos: [{
-        img: google,
-        gender: '男',
-        age: 18,
-        key: 0
-      }],
+      infos: [],
       key: 0,
       ws: null
     }
   },
   mounted() {
     this.openWebSocket();
-    // let info = this.infos[0];
-    // setInterval(() => {
-    //   if (this.infos.length > 2) {
-    //     this.infos.shift();
-    //   }
-    //   this.infos.push({
-    //     img: info.img,
-    //     gender: Math.random() < 0.5 ? '男' : '女',
-    //     age: Math.round(Math.random() * 10000),
-    //     key: ++this.key
-    //   });
-    // }, 1000)
   },
   beforeDestroy() {
     this.ws && this.ws.close(1000, 'face attr destroy')

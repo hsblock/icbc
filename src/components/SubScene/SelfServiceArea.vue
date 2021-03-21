@@ -73,104 +73,95 @@
           </div>
         </div>
       </div>
-      <div>
-        <LineChart
-            :chart-data="chartData"
-            :options="options"
-            class="stay-time"
-        />
+      <div class="stay-time-container">
+        <div v-if="loading" class="loading"></div>
+        <canvas ref="chart" class="stay-time"></canvas>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import LineChart from "@/components/Charts/LineChart";
+import Chart from 'chart.js'
 import {server} from "../../../config";
 
 export default {
   name: "SelfServiceArea",
-  components: {LineChart},
   data() {
     return {
-      num: 0,
-      numLimit: 0,
+      num: '',
+      numLimit: '',
       numVisible: false,
-      stayTime: 900,
-      stayTimeLimit: 0,
+      stayTime: '',
+      stayTimeLimit: '',
       stayVisible: false,
-      contactTime: 0,
-      contactTimeLimit: 0,
+      contactTime: '',
+      contactTimeLimit: '',
       contactVisible: false,
-      chartData: {
-        labels: Array.from({length: 9}).map((_, i) => 9 + i),
-        datasets: [
-          {
-            label: '排队 / 总人数统计',
+      wsNumQueue: null,
+      wsMostStandingTime: null,
+      wsMostContactTime: null,
+      chart: null,
+      chartConfig: {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: '排队人数统计',
             fill: false,
             backgroundColor: '#000',
             borderColor: '#000',
-            data: Array.from({length: 9}).map((_, i) => {
-              return Math.round(Math.random() * 10);
-            }),
-            yAxisID: 'y'
-          },
-          {
-            label: '无 - 平均等待时间',
-            fill: false,
-            backgroundColor: '#0f0',
-            borderColor: '#0f0',
-            data: Array.from({length: 9}).map((_, i) => {
-              return Math.round(Math.random() * 100);
-            }),
-            yAxisID: 'y1'
-          }
-        ],
-      },
-      options: {
-        responsive: true,
-        interaction: {
-          mode: 'index'
+            data: [],
+          }],
         },
-        stacked: false,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [
-            {
-              position: 'left',
-              id: 'y'
-            },
-            {
-              position: 'right',
-              id: 'y1',
-              gridLines: {
-                drawOnChartArea: false,
+        options: {
+          responsive: true,
+          interaction: {
+            mode: 'index'
+          },
+          stacked: false,
+          maintainAspectRatio: false,
+          devicePixelRatio: 2,
+          scales: {
+            xAxes: [{
+              display: true,
+              ticks: {
+                maxRotation: 0,
+                autoSkip: false,
+                callback: function (dataLabel, index) {
+                  return index % 15 === 0 ? dataLabel : '';
+                }
               }
-            }
-          ],
+            }],
+            yAxes: [{
+              position: 'left',
+              offsetGridLines: true,
+              ticks: {
+              }
+            }],
+          }
         }
       },
-      wsNumQueue: null,
-      wsmostStandingTime: null,
-      wsLatestDay: null,
-      wsMostContactTime: null
+      maxCount: 60,
+      loading: true
     }
   },
   mounted() {
+    this.newChart();
+    this.getWaitArray();
+    setInterval(this.getWaitArray, 1000 * 60);
     this.openWebSocket();
     this.getInitialData();
   },
   beforeDestroy() {
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-    this.wsmostStandingTime && this.wsmostStandingTime.close(1000, 'most standing time destroy');
-    this.wsLatestDay && this.wsLatestDay.close(1000, 'latest day destroy');
+    this.wsMostStandingTime && this.wsMostStandingTime.close(1000, 'most standing time destroy');
     this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
   },
   methods: {
     openWebSocket() {
       this.openNumQueue();
       this.openMostStandingTime();
-      this.openLatestDay();
       this.openMostContactTime();
     },
     getInitialData() {
@@ -190,15 +181,15 @@ export default {
       this.wsNumQueue.onclose = () => console.log("num queue close")
     },
     openMostStandingTime() {
-      this.wsmostStandingTime = new WebSocket(server().ws.mostStandingTime);
-      this.wsmostStandingTime.onopen = () => console.log("most standing time open")
-      this.wsmostStandingTime.onmessage = (e) => {
+      this.wsMostStandingTime = new WebSocket(server().ws.mostStandingTime);
+      this.wsMostStandingTime.onopen = () => console.log("most standing time open")
+      this.wsMostStandingTime.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
         this.stayTime = data['mostStandingTime'];
       }
-      this.wsmostStandingTime.onerror = (error) => console.log(error)
-      this.wsmostStandingTime.onclose = () => console.log("most standing time close")
+      this.wsMostStandingTime.onerror = (error) => console.log(error)
+      this.wsMostStandingTime.onclose = () => console.log("most standing time close")
     },
     openMostContactTime() {
       this.wsMostContactTime = new WebSocket(server().ws.mostContactTime);
@@ -210,17 +201,6 @@ export default {
       }
       this.wsMostContactTime.onerror = (error) => console.log(error)
       this.wsMostContactTime.onclose = () => console.log("most contact time close")
-    },
-    openLatestDay() {
-      this.wsLatestDay = new WebSocket(server().ws.latestDay);
-      this.wsLatestDay.onopen = () => console.log("latest day open")
-      this.wsLatestDay.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log(data);
-        this.chartData.datasets[0].data = data['population'];
-      }
-      this.wsLatestDay.onerror = (error) => console.log(error)
-      this.wsLatestDay.onclose = () => console.log("latest day close")
     },
     submitWaitNumber() {
       this.axios.get(server().http.setWaitNumber, {params: {waitNumber: this.numLimit}})
@@ -296,6 +276,40 @@ export default {
           .catch(e => {
             console.error(e.message);
           })
+    },
+    getWaitArray() {
+      this.axios.get(server().http.getWaitArray)
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            const waitTimeArray = data['waitTimeArray'];
+            const waitNumberArray = data['waitNumberArray'];
+            const chartData = this.chartConfig.data.datasets[0].data;
+            const chartLabel = this.chartConfig.data.labels;
+            let lastTime1 = chartLabel[chartLabel.length - 1];
+            // 当前展示时间表的最大时间值在收到数据中的位置
+            let index = waitTimeArray.indexOf(lastTime1);
+            let newCount = waitTimeArray.length - (index + 1);
+            // 需要去掉的个数
+            let removeCount = chartLabel.length + newCount - this.maxCount;
+            for(let i = 0; i < removeCount; i++) {
+              chartData.shift();
+              chartLabel.shift();
+            }
+            for(let i = 0; i < newCount; i++) {
+              chartData.push(waitNumberArray[index + i + 1]);
+              chartLabel.push(waitTimeArray[index + i + 1]);
+            }
+            this.chart.update();
+            this.loading = false;
+          })
+          .catch(e => {
+            console.error(e);
+          })
+    },
+    newChart() {
+      let ctx = this.$refs.chart.getContext('2d');
+      this.chart = new Chart(ctx, this.chartConfig);
     }
   }
 }
@@ -318,14 +332,14 @@ export default {
   .self-service-area-wrapper {
     display: flex;
     height: calc(100% - 32px);
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 10px;
     box-sizing: border-box;
 
     .column {
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 30%;
     }
 
     .row {
@@ -396,10 +410,15 @@ export default {
       }
     }
 
-    .stay-time {
-      height: 100%;
-      margin-left: 10px;
-      background: #ffffff;
+    .stay-time-container {
+      position: relative;
+      max-width: 30vw;
+
+      .stay-time {
+        height: 100%;
+        margin-left: 10px;
+        background: rgb(255, 255, 255);
+      }
     }
   }
 }

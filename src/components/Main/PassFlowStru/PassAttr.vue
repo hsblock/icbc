@@ -30,56 +30,60 @@
         </tr>
       </table>
     </div>
-    <PieChart
-        :chart-data="chartData"
-        :options="options"
-        class="gender-distribution"
-    />
+    <div class="gender-age-container">
+      <div v-if="loading" class="loading"></div>
+      <canvas ref="chart" class="gender-age"></canvas>
+    </div>
   </div>
 </template>
 
 <script>
-import PieChart from "@/components/Charts/PieChart";
 import {server} from "../../../../config";
+import Chart from "chart.js";
 
 export default {
   name: "PassAttr",
-  components: {PieChart},
   data() {
     return {
-      chartData: {
-        labels: [],
-        datasets: [
-          {
-            label: '性别分布',
-            backgroundColor: ['#4CACED', '#FF6384'],
-            borderColor: '#ffffff',
-            data: [10, 20]
-          },
-          {
-            label: '年龄分布',
-            backgroundColor: ['#ff9f40', '#FFCD56', "#4BC0C0", "#9966FF"],
-            borderColor: '#ffffff',
-            data: [70, 20, 40, 50]
-          }
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        devicePixelRatio: 2,
-        legend: {
-          display: false
+      chartConfig: {
+        type: 'pie',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: '性别分布',
+              backgroundColor: ['#4CACED', '#FF6384'],
+              borderColor: '#ffffff',
+              data: [0, 0]
+            },
+            {
+              label: '年龄分布',
+              backgroundColor: ['#ff9f40', '#FFCD56', "#4BC0C0", "#9966FF"],
+              borderColor: '#ffffff',
+              data: [0, 0, 0, 0]
+            }
+          ],
         },
-        tooltips: {
-          enabled: false
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          devicePixelRatio: 2,
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: false
+          }
         }
       },
+      chart: null,
       wsGender: null,
-      wsAge: null
+      wsAge: null,
+      loading: true
     }
   },
-  created() {
+  mounted() {
+    this.newChart();
     this.openWebSocket();
   },
   beforeDestroy() {
@@ -94,24 +98,36 @@ export default {
       this.wsAge && this.wsAge.close(1000, 'age rate destroy');
       this.wsGender && this.wsGender.close(1000, 'gender rate destroy');
     },
+    newChart() {
+      let ctx = this.$refs.chart.getContext('2d');
+      this.chart = new Chart(ctx, this.chartConfig);
+    },
     openGender() {
       this.wsGender = new WebSocket(server().ws.genderRate);
-      this.wsGender.onopen = () => console.log("gender rate open")
+      this.wsGender.onopen = () => {
+        console.log("gender rate open");
+        this.loading = false;
+      }
       this.wsGender.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data)
-        this.chartData.datasets[0].data = [+data["男"], +data["女"]];
+        this.chartConfig.data.datasets[0].data = [+data["男"], +data["女"]];
+        this.chart.update();
       }
       this.wsGender.onerror = (error) => console.log(error)
       this.wsGender.onclose = () => console.log("gender rate close")
     },
     openAge() {
       this.wsAge = new WebSocket(server().ws.ageRate);
-      this.wsAge.onopen = () => console.log("age rate open")
+      this.wsAge.onopen = () => {
+        console.log("age rate open");
+        this.loading = false;
+      }
       this.wsAge.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data)
-        this.chartData.datasets[1].data = data['age'].map((item) => +item);
+        this.chartConfig.data.datasets[1].data = data['age'].map((item) => +item);
+        this.chart.update();
       }
       this.wsAge.onerror = (error) => console.log(error)
       this.wsAge.onclose = () => console.log("age rate close")
@@ -120,7 +136,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .pass-attr {
   display: flex;
 }
@@ -135,5 +151,9 @@ export default {
 
 .labels table + table {
   margin-top: 10px;
+}
+
+.gender-age-container {
+  position: relative;
 }
 </style>
