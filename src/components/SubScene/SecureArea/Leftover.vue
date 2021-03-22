@@ -10,7 +10,6 @@
     >
       <div v-for="item in lost" :key="item.key" class="lost-item">
         <img :src="item.img" alt="">
-        <div>{{ item.name }}</div>
       </div>
     </transition-group>
   </div>
@@ -25,7 +24,7 @@ export default {
     return {
       lost: [],
       key: 0,
-      wsLeftover: null
+      wsLeftover: null,
     }
   },
   mounted() {
@@ -44,8 +43,7 @@ export default {
         this.lost.splice(0, this.lost.length);
         data.forEach((item) => {
           this.lost.push({
-            name: item['name'],
-            img: `data:image/png;base64,${item['img']}`,
+            img: `data:image/png;base64,${item[0]}`,
             key: ++this.key
           })
         })

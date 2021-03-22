@@ -1,4 +1,4 @@
-export const version = 'ICBC v2.0.0';
+export const version = 'ICBC v2.1.0';
 
 export const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
 export const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');

@@ -18,7 +18,6 @@
 
 <script>
 import {server} from "../../../../config";
-import g from '@/assets/img/g.png'
 
 export default {
   name: "Danger",
@@ -45,8 +44,8 @@ export default {
         this.danger.splice(0, this.danger.length);
         data.forEach((item) => {
           this.danger.push({
-            name: item['name'],
-            img: `data:image/png;base64,${item['img']}`,
+            name: item[0],
+            img: `data:image/png;base64,${item[1]}`,
             key: ++this.key
           })
         })

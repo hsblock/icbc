@@ -31,8 +31,8 @@ BUG 调试主要有以下几个方面：
 | ageRate | { 'age': [12, 13, 20, 23] } | 获取年龄比例 |  |
 | latestDay | { 'population': [12, 34] } | 获取当天客流统计信息 |  |
 | faceAttr | { 'img': base64, 'age': 13, 'gender': 男 } | 获取人脸检测信息 |  |
-| abnormal | { 'name': 'knife', 'img': base64 } | 异常物品检测 |  |
-| leftover | { 'name': 'bag', 'img': base64 } | 遗留物品检测 |  |
+| abnormal | [{ 'name': 'knife', 'img': base64 }] | 异常物品检测 |  |
+| leftover | [{ 'img': base64 }] | 遗留物品检测 |  |
 | managerStatus | { 'status': '在岗/暂离/离岗' } | 大堂经理状态 |  |
 
 2. http
