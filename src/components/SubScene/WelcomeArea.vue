@@ -153,14 +153,8 @@ export default {
             const data = res.data;
             console.log(data);
             const offlineTimeArray = data['offlineTimeArray'];
-            for (let i = offlineTimeArray.length - 1; ; i--) {
-              if (offlineTimeArray[i] === 0) {
-                offlineTimeArray.pop();
-              } else {
-                break;
-              }
-            }
-            this.chartConfig.data.datasets[0].data = data['offlineTimeArray'];
+            let count = new Date().getHours() - 8;
+            this.chartConfig.data.datasets[0].data = offlineTimeArray.slice(0, count);
             this.chart.update();
             this.loading = false;
           })

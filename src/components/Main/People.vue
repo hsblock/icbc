@@ -93,6 +93,7 @@ export default {
     padding: 4px 16px;
     cursor: pointer;
     transition: 0.1s;
+    text-align: center;
 
     &:hover {
       color: #409eff;

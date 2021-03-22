@@ -30,18 +30,6 @@ export default {
   },
   mounted() {
     this.openLeftover();
-    // let info = this.lost[0];
-    // setInterval(() => {
-    //   if (this.lost.length > 2) {
-    //     console.log(this.lost[0].key)
-    //     this.lost.shift();
-    //   }
-    //   this.lost.push({
-    //     img: info.img,
-    //     name: info.name,
-    //     key: ++this.key
-    //   });
-    // }, 1000)
   },
   beforeDestroy() {
     this.wsLeftover && this.wsLeftover.close(1000, 'leftover close');
@@ -53,13 +41,13 @@ export default {
       this.wsLeftover.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        if (this.lost.length >= 5) {
-          this.lost.splice(0, this.lost.length - 4)
-        }
-        this.lost.push({
-          name: data['name'],
-          img: `data:image/png;base64,${data['img']}`,
-          key: ++this.key
+        this.lost.splice(0, this.lost.length);
+        data.forEach((item) => {
+          this.lost.push({
+            name: item['name'],
+            img: `data:image/png;base64,${item['img']}`,
+            key: ++this.key
+          })
         })
       }
       this.wsLeftover.onerror = (error) => console.log(error)

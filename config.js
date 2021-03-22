@@ -25,10 +25,10 @@ const ws = {
   mostContactTime: 'mostContactTime', // 获取最长接触时间 { mostContactTime: 12 }
   offlineImage: 'offlineImage', // video
   crossRegion: 'crossRegion', // 获取人员流动信息 { 'numArea': 3, 'flow': [12, 123] }
-  genderRate: 'genderRate', // 获取男女比例 { 男: 20, 女: 10 }
-  ageRate: 'ageRate', // 获取年龄比例 { 'age': [12, 13, 20, 23] }
-  latestDay: 'latestDay', // 获取当天客流统计信息 { 'population': [12, 34] }
-  faceAttr: 'faceAttr', // 获取人脸检测信息 [ 'infos': { 'img': base64, 'age': 13, 'gender': 男 } ]
+  genderRate: 'face/genderRate', // 获取男女比例 { 男: 20, 女: 10 }
+  ageRate: 'face/ageRate', // 获取年龄比例 { 'age': [12, 13, 20, 23] }
+  latestDay: 'face/latestDay', // 获取当天客流统计信息 { 'population': [12, 34] }
+  faceAttr: 'face/faceAttr', // 获取人脸检测信息 [ 'infos': { 'img': base64, 'age': 13, 'gender': 男 } ]
   abnormal: 'abnormal', // 异常物品检测 { 'name': 'knife', 'img': base64 }
   leftover: 'leftover', // 遗留物品检测 { 'name': 'bag', 'img': base64 }
   managerStatus: 'managerStatus', // 大堂经理状态 { 'status': '在岗、暂离、离岗' }
@@ -49,8 +49,8 @@ const http = {
   getWaitNumber: 'getWaitNumber', // 获取等待人数上限 { 'waitNumber': 23 }
   getLeaveTime: 'getLeaveTime', // 获取离岗时间上限 { 'leaveTime': 12 }
   getContactTime: 'getContactTime', // 获取接触时间上限 { 'contactTime': 12 }
-  getLastWeekNum: 'getLastWeekNum', // 获取历史七天客流 { 'lastWeekNum': [3, 3, 7, 9, 2, 3, 6] }
-  backgroundShot: 'backgroundShot', // 遗留物品检测背景拍摄
+  getLastWeekNum: 'face/getLastWeekNum', // 获取历史七天客流 { 'lastWeekNum': [3, 3, 7, 9, 2, 3, 6] }
+  backgroundShot: 'leftover/backgroundShot', // 遗留物品检测背景拍摄
   getStaff: 'getPattern', // 获取值班员工
   areaHandle: 'areaHandle', // 区域划分
   selectPattern: 'selectPattern', // 模式选择
@@ -59,9 +59,9 @@ const http = {
 }
 
 const video = {
-  flowFace: 'flowFace',
-  flowDangerous: 'flowDangerous',
-  flowLeftover: 'flowLeftover',
+  flowFace: 'face/flowFace',
+  flowDangerous: 'dangerous/flowDangerous',
+  flowLeftover: 'leftover/flowLeftover',
   flowStanding: 'flowStanding',
   flowOffline: 'flowOffline'
 }

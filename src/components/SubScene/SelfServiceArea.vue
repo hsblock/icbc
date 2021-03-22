@@ -109,9 +109,17 @@ export default {
           datasets: [{
             label: '排队人数统计',
             fill: false,
-            backgroundColor: '#000',
-            borderColor: '#000',
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgb(54, 162, 235)',
             data: [],
+            yAxisId: 'y1'
+          },{
+            label: '排队时间统计',
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [],
+            yAxisId: 'y2'
           }],
         },
         options: {
@@ -121,7 +129,6 @@ export default {
           },
           stacked: false,
           maintainAspectRatio: false,
-          devicePixelRatio: 2,
           scales: {
             xAxes: [{
               display: true,
@@ -129,15 +136,18 @@ export default {
                 maxRotation: 0,
                 autoSkip: false,
                 callback: function (dataLabel, index) {
-                  return index % 15 === 0 ? dataLabel : '';
+                  return +(dataLabel.split(':')[1]) % 15 === 0 ? dataLabel : null;
                 }
               }
             }],
             yAxes: [{
+              id: 'y1',
               position: 'left',
-              offsetGridLines: true,
-              ticks: {
-              }
+              offsetGridLines: true
+            }, {
+              id: 'y2',
+              position: 'right',
+              offsetGridLines: true
             }],
           }
         }
@@ -284,21 +294,37 @@ export default {
             console.log(data);
             const waitTimeArray = data['waitTimeArray'];
             const waitNumberArray = data['waitNumberArray'];
-            const chartData = this.chartConfig.data.datasets[0].data;
-            const chartLabel = this.chartConfig.data.labels;
-            let lastTime1 = chartLabel[chartLabel.length - 1];
-            // 当前展示时间表的最大时间值在收到数据中的位置
-            let index = waitTimeArray.indexOf(lastTime1);
-            let newCount = waitTimeArray.length - (index + 1);
-            // 需要去掉的个数
-            let removeCount = chartLabel.length + newCount - this.maxCount;
-            for(let i = 0; i < removeCount; i++) {
-              chartData.shift();
-              chartLabel.shift();
-            }
-            for(let i = 0; i < newCount; i++) {
-              chartData.push(waitNumberArray[index + i + 1]);
-              chartLabel.push(waitTimeArray[index + i + 1]);
+            let time = new Date();
+            let [year, month, date, hour, minute] = [
+              time.getFullYear(), time.getMonth(), time.getDate(), time.getHours(), time.getMinutes()
+            ]
+            const label = Array.from({length: this.maxCount}).map((_, i) => {
+              let temp = new Date(year, month, date, hour, minute - i);
+              return `${temp.getHours()}:${temp.getMinutes().toString().padStart(2, '0')}`;
+            });
+            label.reverse();
+
+            const lastWaitNumberArray = this.chartConfig.data.datasets[0].data;
+            const lastWaitTimeArray = this.chartConfig.data.datasets[1].data;
+            const lastLabel = this.chartConfig.data.labels;
+            if (lastLabel.length === 0) {
+              // 初始化时
+              this.chartConfig.data.datasets[0].data = waitNumberArray;
+              this.chartConfig.data.datasets[1].data = waitTimeArray;
+              this.chartConfig.data.labels = label;
+            } else {
+              let lastTime = lastLabel[lastLabel.length - 1];
+              // 当前展示时间表的最大时间值在新时间表中的位置
+              let index = label.indexOf(lastTime);
+              let newCount = this.maxCount - (index + 1);
+              [
+                [lastWaitNumberArray, waitNumberArray],
+                [lastWaitTimeArray, waitTimeArray],
+                [lastLabel, label]
+              ].forEach(([lastArr, arr]) => {
+                lastArr.splice(0, newCount);
+                lastArr.splice(lastArr.length, 0, ...arr.slice(index + 1));
+              })
             }
             this.chart.update();
             this.loading = false;

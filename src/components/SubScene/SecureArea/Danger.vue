@@ -18,6 +18,7 @@
 
 <script>
 import {server} from "../../../../config";
+import g from '@/assets/img/g.png'
 
 export default {
   name: "Danger",
@@ -30,18 +31,6 @@ export default {
   },
   mounted() {
     this.openAbnormal();
-    // let info = this.danger[0];
-    // setInterval(() => {
-    //   if (this.danger.length > 2) {
-    //     console.log(this.danger[0].key)
-    //     this.danger.shift();
-    //   }
-    //   this.danger.push({
-    //     img: info.img,
-    //     name: info.name,
-    //     key: ++this.key
-    //   });
-    // }, 1000)
   },
   beforeDestroy() {
     this.wsAbnormal && this.wsAbnormal.close(1000, 'abnormal destroy');
@@ -53,13 +42,13 @@ export default {
       this.wsAbnormal.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        if (this.danger.length >= 5) {
-          this.danger.splice(0, this.danger.length - 4)
-        }
-        this.danger.push({
-          name: data['name'],
-          img: `data:image/png;base64,${data['img']}`,
-          key: ++this.key
+        this.danger.splice(0, this.danger.length);
+        data.forEach((item) => {
+          this.danger.push({
+            name: item['name'],
+            img: `data:image/png;base64,${item['img']}`,
+            key: ++this.key
+          })
         })
       }
       this.wsAbnormal.onerror = (error) => console.log(error)
