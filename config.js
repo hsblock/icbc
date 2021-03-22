@@ -1,4 +1,4 @@
-export const version = 'ICBC v2.1.0';
+export const version = 'ICBC v2.1.1';
 
 export const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
 export const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');
@@ -29,8 +29,8 @@ const ws = {
   ageRate: 'face/ageRate', // 获取年龄比例 { 'age': [12, 13, 20, 23] }
   latestDay: 'face/latestDay', // 获取当天客流统计信息 { 'population': [12, 34] }
   faceAttr: 'face/faceAttr', // 获取人脸检测信息 [ 'infos': { 'img': base64, 'age': 13, 'gender': 男 } ]
-  abnormal: 'abnormal', // 异常物品检测 { 'name': 'knife', 'img': base64 }
-  leftover: 'leftover', // 遗留物品检测 { 'name': 'bag', 'img': base64 }
+  abnormal: 'abnormal/abnormal', // 异常物品检测 { 'name': 'knife', 'img': base64 }
+  leftover: 'leftover/leftover', // 遗留物品检测 { 'name': 'bag', 'img': base64 }
   managerStatus: 'managerStatus', // 大堂经理状态 { 'status': '在岗、暂离、离岗' }
   numRegion: 'numRegion', // 区域对应的人数 { 'infos': [{ 'name': 'region1', 'numPerson': 12, 'avgStayTime': 123 }] }
 }
