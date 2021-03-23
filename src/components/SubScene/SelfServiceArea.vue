@@ -112,14 +112,14 @@ export default {
             backgroundColor: 'rgb(54, 162, 235)',
             borderColor: 'rgb(54, 162, 235)',
             data: [],
-            yAxisId: 'y1'
+            yAxisID: 'y1'
           },{
             label: '排队时间统计',
             fill: false,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: [],
-            yAxisId: 'y2'
+            yAxisID: 'y2'
           }],
         },
         options: {
