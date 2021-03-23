@@ -55,7 +55,8 @@ post 请求数据格式均改为了 `application/json`，django 获取数据可�
 | getContactTime |                                                              | { 'contactTime': 12 }                   | 获取接触时间上限                                             | get |
 | getLastWeekNum |                                                              | { 'lastWeekNum' : [1, 2] } | 获取历史七天客流                                             | get |
 | backgroundShot |                                                              |                                                              | 遗留物品检测背景拍摄                                         | get |
-| areaHandle     | 1. get 请求<br />{ 'flag': 'get_image', 'topic': '...' }<br />2. post 请求<br />{ 'flag': 'send_area', 'topic': '...', 'area': [[10, 20], [20, 30]], 'size': [800, 600] } |  | 区域划分<br />1. get 请求选取主题<br />2. post 请求选定区域，area 为区域顶点坐标，size 为图片大小 | post |
+| areaHandle     | { 'flag': 'get_image', 'topic': '...' } |  | 区域划分/选取主题 | get |
+| areaHandle | { 'flag': 'send_area', 'topic': '...', 'area': [[10, 20], [20, 30]], 'size': [800, 600] } | | 区域划分/选定区域，area 为区域顶点坐标，size 为图片大小 | post |
 | selectPerson | { 'x': 0.13, 'y': 0.24 } |  | 人员追踪 | post |
 | selectPattern | { 'flag': 'upload_pattern', 'topic': 'manager', 'img_id': '-1', 'img': base64, 'timestamp': 1 } | { 'img_id': 1, 'img': base64, 'timestamp': 1, 'topic': 'manager' } | 选择模板图片 | post |
 | selectPattern | { 'flag': 'get_candidates', 'topic': 'manager' } |  | 获取模板图片 | get |

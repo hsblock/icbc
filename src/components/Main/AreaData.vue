@@ -125,6 +125,7 @@ export default {
       this.wsAbnormal.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
+        this.safe.danger = [];
         data.forEach((item, i) => {
           if (i < 2) {
             this.safe.danger.push({
@@ -143,6 +144,7 @@ export default {
       this.wsLeftover.onopen = () => console.log("leftover open")
       this.wsLeftover.onmessage = (e) => {
         const data = JSON.parse(e.data);
+        this.safe.lost = [];
         console.log(data);
         data.forEach((item, i) => {
           if (i < 2) {

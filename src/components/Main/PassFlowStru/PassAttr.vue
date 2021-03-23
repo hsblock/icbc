@@ -87,7 +87,7 @@ export default {
   },
   mounted() {
     this.newChart();
-    // this.openWebSocket();
+    this.openWebSocket();
   },
   beforeDestroy() {
     this.closeWebSocket();
