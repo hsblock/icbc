@@ -1,6 +1,5 @@
 <template>
   <div class="people-container">
-    <span class="people">当前驻留人次: {{ currentStay }}</span>
     <span class="people">今日客流总量: {{ todayFlow }}</span>
     <span class="people">客流上限:</span>
     <span class="people flow-limit" @click="dialogVisible = true">{{ flowLimit }}</span>
@@ -30,7 +29,6 @@ export default {
   },
   data() {
     return {
-      currentStay: -1,
       flowLimit: '',
       dialogVisible: false
     }

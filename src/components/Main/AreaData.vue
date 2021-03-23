@@ -10,11 +10,30 @@
           <div>最长接触时间: {{ self.maxCTime }} 分钟</div>
         </div>
       </div>
-      <div class="area-data-items">
+      <div class="area-data-items secure">
         <div class="title">安防区域</div>
         <div class="content">
-          <div>可疑危险物品:  {{ safe.danger }}</div>
-          <div>检测遗留物品:  {{ safe.lost }}</div>
+          <div class="danger-wrapper">
+            <div>可疑危险物品:  </div>
+            <img
+                v-for="item in safe.danger"
+                :key="item.id"
+                :src="item.img"
+                class="danger"
+                :title="item.name"
+                alt=""
+            >
+          </div>
+          <div class="lost-wrapper">
+            <div>检测遗留物品:  </div>
+            <img
+                v-for="item in safe.lost"
+                :key="item.id"
+                :src="item.img"
+                class="lost"
+                alt=""
+            >
+          </div>
         </div>
       </div>
       <div class="area-data-items">
@@ -35,8 +54,8 @@ export default {
   data() {
     return {
       safe: {
-        danger: '',
-        lost: ''
+        danger: [],
+        lost: []
       },
       self: {
         num: '',
@@ -46,6 +65,7 @@ export default {
       manager: {
         status: ''
       },
+      id: 0,
       wsNumQueue: null,
       wsMostStandingTime: null,
       wsAbnormal: null,
@@ -105,7 +125,15 @@ export default {
       this.wsAbnormal.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.safe.danger = data['name'];
+        data.forEach((item, i) => {
+          if (i < 2) {
+            this.safe.danger.push({
+              name: item[0],
+              img: "data:image/png;base64," + item[1],
+              id: ++this.id
+            });
+          }
+        })
       }
       this.wsAbnormal.onerror = (error) => console.log(error)
       this.wsAbnormal.onclose = () => console.log("abnormal close")
@@ -116,7 +144,14 @@ export default {
       this.wsLeftover.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.safe.lost = data['name'];
+        data.forEach((item, i) => {
+          if (i < 2) {
+            this.safe.lost.push({
+              img: "data:image/png;base64," + item[0],
+              id: ++this.id
+            })
+          }
+        })
       }
       this.wsLeftover.onerror = (error) => console.log(error)
       this.wsLeftover.onclose = () => console.log("leftover close")
@@ -165,6 +200,11 @@ export default {
       background: #ffffff;
       color: #000000;
       border-radius: 0.25rem;
+      margin: 0 1.5rem;
+
+      &.secure {
+        flex: 1;
+      }
 
       .title {
         padding: 0.875rem;
@@ -178,8 +218,33 @@ export default {
         font-size: 1rem;
         min-width: 8rem;
 
-        div {
+        .danger-wrapper {
           margin-bottom: 0.5rem;
+
+          img.danger {
+            width: 64px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 2px;
+
+            & + .danger {
+              margin-left: 0.5rem;
+            }
+          }
+        }
+
+        .lost-wrapper {
+
+          img.lost {
+            width: 64px;
+            height: 36px;
+            border-radius: 2px;
+            object-fit: cover;
+
+            & + .lost {
+              margin-left: 0.5rem;
+            }
+          }
         }
       }
     }
