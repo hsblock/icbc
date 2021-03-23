@@ -48,31 +48,34 @@ export default {
       chartConfig: {
         type: 'pie',
         data: {
-          labels: [],
           datasets: [
             {
               label: '性别分布',
               backgroundColor: ['#4CACED', '#FF6384'],
               borderColor: '#ffffff',
-              data: [0, 0]
+              data: [0, 0],
+              labels: ['男', '女']
             },
             {
               label: '年龄分布',
               backgroundColor: ['#ff9f40', '#FFCD56', "#4BC0C0", "#9966FF"],
               borderColor: '#ffffff',
-              data: [0, 0, 0, 0]
+              data: [0, 0, 0, 0],
+              labels: ['18岁以下', '18-30岁', '30-60岁', '60岁以上']
             }
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          devicePixelRatio: 2,
-          legend: {
-            display: false
-          },
           tooltips: {
-            enabled: false
+            callbacks: {
+              label: function(tooltipItem, data) {
+                let dataset = data.datasets[tooltipItem.datasetIndex];
+                let index = tooltipItem.index;
+                return dataset.labels[index] + ': ' + dataset.data[index];
+              }
+            }
           }
         }
       },
@@ -84,7 +87,7 @@ export default {
   },
   mounted() {
     this.newChart();
-    this.openWebSocket();
+    // this.openWebSocket();
   },
   beforeDestroy() {
     this.closeWebSocket();
