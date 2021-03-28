@@ -34,6 +34,11 @@ export default new VueRouter({
               path: '/manage/person',
               name: 'PersonSelect',
               component: () => import('../components/Manage/PersonSelect')
+            },
+            {
+              path: '/manage/setPath',
+              name: 'PathSet',
+              component: () => import('../components/Manage/PathSet')
             }
           ]
         }

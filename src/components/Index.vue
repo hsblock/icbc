@@ -42,7 +42,8 @@ export default {
     return {
       title: "副场景",
       time: '--/--/--',
-      ws: null
+      ws: null,
+      interval: null
     }
   },
   watch: {
@@ -57,7 +58,7 @@ export default {
     this.handleRouteChange();
   },
   mounted() {
-    window.setInterval(this.handleTime, 1000);
+    this.interval = setInterval(this.handleTime, 1000);
     this.openWarning();
     this.axios.get('https://api.github.com/repos/hsblock/icbc/releases/latest')
         .then(res => {
@@ -84,7 +85,7 @@ export default {
         })
   },
   destroyed() {
-    window.clearInterval(this.handleTime);
+    clearInterval(this.interval);
     this.ws && this.ws.close(1000, 'warning destroy');
   },
   methods: {
@@ -101,16 +102,32 @@ export default {
     },
     openWarning() {
       this.ws = new WebSocket(server().ws.warning);
-      this.ws.onopen = () => console.log("warning open");
+      var timer = null;
+      this.ws.onopen = () => {
+        console.log("warning open");
+        timer = setInterval(() => {
+          this.ws.send('ping');
+          console.log('ping server');
+        }, 30 * 1000);
+      }
       this.ws.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
-        this.$notify(data['message'])
+        this.$notify(data['message']);
+        clearInterval(timer);
+        timer = setInterval(() => {
+          this.ws.send('ping');
+          console.log('ping server');
+        }, 30 * 1000);
       };
       this.ws.onerror = (e) => {
+        clearInterval(timer);
         console.log(e);
       };
-      this.ws.onclose = () => console.log("warning close");
+      this.ws.onclose = () => {
+        clearInterval(timer);
+        console.log("warning close");
+      }
     }
   }
 }

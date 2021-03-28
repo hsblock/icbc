@@ -70,7 +70,7 @@ export default {
       this.ws.onerror = (e) => {
         console.log(e);
       }
-      this.ws.onclose = () => console.log("video close");
+      this.ws.onclose = () => console.log(`video: ${this.activeSource} video close`);
     },
     handleClick(e) {
       const [x, y] = [e.clientX, e.clientY];

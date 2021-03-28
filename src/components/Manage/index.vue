@@ -7,17 +7,17 @@
       <router-link to="/manage/person">
         <el-button>人员选择</el-button>
       </router-link>
+      <router-link to="/manage/setPath">
+        <el-button>视频源配置</el-button>
+      </router-link>
     </div>
     <router-view />
   </div>
 </template>
 
 <script>
-import AreaSelect from "@/components/Manage/AreaSelect";
-import PersonSelect from "@/components/Manage/PersonSelect";
 export default {
   name: "Manage",
-  components: {PersonSelect, AreaSelect},
   data() {
     return {
       tab: 'areaSelect'
@@ -49,7 +49,8 @@ export default {
       }
 
       .el-button {
-        font-size: 20px;
+        font-size: 18px;
+        width: 140px;
       }
     }
   }

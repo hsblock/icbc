@@ -153,17 +153,19 @@ export default {
         }
       },
       maxCount: 60,
-      loading: true
+      loading: true,
+      interval: null,
     }
   },
   mounted() {
     this.newChart();
     this.getWaitArray();
-    setInterval(this.getWaitArray, 1000 * 60);
+    this.interval = setInterval(this.getWaitArray, 1000 * 60);
     this.openWebSocket();
     this.getInitialData();
   },
   beforeDestroy() {
+    clearInterval(this.interval)
     this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
     this.wsMostStandingTime && this.wsMostStandingTime.close(1000, 'most standing time destroy');
     this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');

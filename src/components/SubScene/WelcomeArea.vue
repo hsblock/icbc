@@ -80,13 +80,14 @@ export default {
         }
       },
       chart: null,
-      loading: true
+      loading: true,
+      interval: null
     }
   },
   mounted() {
     this.newChart();
     this.getOfflineArray();
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.getOfflineArray();
     }, 1000 * 60 * 5);
     this.openWebSocket();
@@ -94,6 +95,7 @@ export default {
     this.getStaff();
   },
   beforeDestroy() {
+    clearInterval(this.interval);
     this.ws && this.ws.close(1000, 'manager status destroy');
   },
   methods: {

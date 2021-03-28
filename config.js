@@ -1,4 +1,4 @@
-export const version = 'ICBC v2.1.3';
+export const version = 'ICBC v2.2.0';
 
 export const httpUrl = () => (window.localStorage.getItem('httpUrl') || '127.0.0.1');
 export const websocketUrl = () => (window.localStorage.getItem('websocketUrl') || '127.0.0.1');
@@ -56,6 +56,7 @@ const http = {
   selectPattern: 'selectPattern', // 模式选择
   getWaitArray: 'getWaitArray', // 获取排队人数数组
   getOfflineArray: 'getOfflineArray', // 获取离岗时间数组
+  urlHandle: 'urlHandle', // 视频流配置
 }
 
 const video = {
