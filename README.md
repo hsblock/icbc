@@ -1,5 +1,7 @@
 # icbc
 
+我的代码没有bug:bug::dog:
+
 ### 使用方法
 
 下载 [releases](https://github.com/hsblock/icbc/releases)
@@ -63,6 +65,7 @@ post 请求数据格式均改为了 `application/json`，django 获取数据可�
 | getPattern | { 'flag': 'get_pattern', 'topic': 'manager' } | { 'img': base64 } | 获取值班员工图片 | get |
 | getWaitArray |  | { 'waitNumberArray': [1, 2, 3], 'waitTimeArray': ['2021/3/21 20:25'] } | 获取一小时内排队人数<br />每分钟请求一次 | get |
 | getOfflineArray |  | { 'offlineTimeArray': [1, 2, 3] } | 每五分钟请求一次 | get |
+| urlHandle | { 'urlFace': '' } |  | 配置视频流 | post |
 
 3. websocket 视频推流接口
 
