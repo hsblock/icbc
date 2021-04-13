@@ -142,12 +142,13 @@ export default {
             }],
             yAxes: [{
               id: 'y1',
-              position: 'left',
-              offsetGridLines: true
+              position: 'left'
             }, {
               id: 'y2',
               position: 'right',
-              offsetGridLines: true
+              gridLines: {
+                display: false
+              }
             }],
           }
         }
@@ -165,16 +166,19 @@ export default {
     this.getInitialData();
   },
   beforeDestroy() {
-    clearInterval(this.interval)
-    this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
-    this.wsMostStandingTime && this.wsMostStandingTime.close(1000, 'most standing time destroy');
-    this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
+    clearInterval(this.interval);
+    this.closeWebSocket();
   },
   methods: {
     openWebSocket() {
       this.openNumQueue();
       this.openMostStandingTime();
       this.openMostContactTime();
+    },
+    closeWebSocket() {
+      this.wsNumQueue && this.wsNumQueue.close(1000, 'num queue destroy');
+      this.wsMostStandingTime && this.wsMostStandingTime.close(1000, 'most standing time destroy');
+      this.wsMostContactTime && this.wsMostContactTime.close(1000, 'most contact time destroy');
     },
     getInitialData() {
       this.getContactTime();
@@ -183,7 +187,7 @@ export default {
     },
     openNumQueue() {
       this.wsNumQueue = new WebSocket(server().ws.numQueue);
-      this.wsNumQueue.onopen = () => console.log("num queue open")
+      this.wsNumQueue.onopen = () => console.log("num queue open");
       this.wsNumQueue.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);

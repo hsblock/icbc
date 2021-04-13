@@ -61,22 +61,45 @@ export default {
       },
       ws: null,
       chartConfig: {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: Array.from({length: 9}).map((_, i) => 9 + i),
           datasets: [
             {
               label: '离岗时间统计',
               fill: false,
-              backgroundColor: '#000',
-              borderColor: '#000',
-              data: []
+              backgroundColor: '#FF9FB4',
+              borderColor: '#FF9FB4',
+              data: [],
+              yAxisID: 'y1'
+            },
+            {
+              label: '离岗次数统计',
+              fill: false,
+              backgroundColor: '#9AD0F5',
+              borderColor: '#9AD0F5',
+              data: [],
+              yAxisID: 'y2'
             }
           ],
         },
         options: {
           responsive: true,
-          maintainAspectRatio: false
+          maintainAspectRatio: false,
+          scales: {
+            yAxes: [{
+              id: 'y1',
+              position: 'left',
+              offsetGridLines: true
+            }, {
+              id: 'y2',
+              position: 'right',
+              offsetGridLines: true,
+              gridLines: {
+                display: false
+              }
+            }]
+          }
         }
       },
       chart: null,
@@ -154,9 +177,11 @@ export default {
           .then(res => {
             const data = res.data;
             console.log(data);
-            const offlineTimeArray = data['offlineTimeArray'];
+            const offlineTimeArray = data['offlineTimeArray'] || [];
+            const offlineCountArray = data['offlineCountArray'] || [];
             let count = new Date().getHours() - 8;
             this.chartConfig.data.datasets[0].data = offlineTimeArray.slice(0, count);
+            this.chartConfig.data.datasets[1].data = offlineCountArray.slice(0, count);
             this.chart.update();
             this.loading = false;
           })
