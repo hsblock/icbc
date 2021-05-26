@@ -14,7 +14,7 @@
       <svg class="iconfont" aria-hidden="true">
         <use :xlink:href="'#icon-' + type"></use>
       </svg>
-      <span class="message-text">{{ message }}</span>
+      <span class="message-text" v-html="message"></span>
     </div>
   </transition>
 </template>

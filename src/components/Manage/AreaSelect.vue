@@ -10,8 +10,8 @@
         >
         </el-option>
       </el-select>
-      <el-button type="success" @click="selectTopic">Send Topic</el-button>
-      <el-button type="success" @click="selectArea">Send Area</el-button>
+      <el-button type="success" @click="selectTopic">获取区域</el-button>
+      <el-button type="success" @click="selectArea">选定区域</el-button>
     </div>
     <div ref="cv" class="canvas-container">
       <canvas :width="canvasWidth" :height="canvasHeight">
